@@ -1,9 +1,10 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken'
 import { RequestHandler, Request, Response } from 'express';
-import { MysqlError } from 'mysql';
+import mysql from 'mysql2';
 
 export const signup: RequestHandler = async (req: Request, res: Response) => {
+  
     const {name, email, password: plainPassword} = req.body
 
     //hash password
@@ -28,10 +29,10 @@ export const signup: RequestHandler = async (req: Request, res: Response) => {
     if(!validatePassword(plainPassword)){
         res.status(400).json('Password must meet security requirements')
     }
-
     //Insert into DB
-    const query = 'INSERT INTO user (name, email, password) VALUES (?,?,?)'
-    req.db.query(query, [name, email, password]), (err: MysqlError | null) => {
+    const query = 'INSERT INTO users (email, password, name) VALUES (?,?,?)';
+    req.db.query(query, [email, password, name], (err: mysql.QueryError | null) => {
+      console.log("étape 3 passée")
         if(err){
             res.status(500).json({
                 message: 'Signup error',
@@ -40,8 +41,8 @@ export const signup: RequestHandler = async (req: Request, res: Response) => {
             })
             return
         }
-        res.status(201).json({message : 'Connexcion succed'})
-    }
+        res.status(201).json({message : 'User added'})
+    })
     
 }
 
@@ -54,7 +55,7 @@ export const login: RequestHandler = (req: Request, res: Response) => {
     }
   
     const query = 'SELECT * FROM users WHERE email = ?';
-    req.db.query(query, [email], (err: MysqlError | null, results: any) => {
+    req.db.query(query, [email], (err: mysql.QueryError | null, results: any) => {
       if (err) {
         res.status(500).json({
           message: 'Login error',

@@ -1,12 +1,10 @@
 import express, {Express, NextFunction, Request, Response} from 'express'
 import swaggerUi from 'swagger-ui-express'
-import swaggerSpecs from './config/swagger'
+import swaggerSpecs from './config/swagger/swagger'
 import userRoutes from './routes/users'
-import mysql from 'mysql';
-import { Pool } from 'mysql'
-interface DbRequest extends Request {
-    db: Pool;  // Ajout de la propriété db à Request
-  }
+import  { MysqlError } from 'mysql';
+import mysql from 'mysql2'
+import 'dotenv/config'
 
 const pool: mysql.Pool = mysql.createPool({
     host: process.env.DB_HOST,
@@ -15,6 +13,8 @@ const pool: mysql.Pool = mysql.createPool({
     database: process.env.DB_NAME,
     port: Number(process.env.DB_PORT)
 })
+
+
 
 const app: Express = express()
 const PORT = process.env.PORT || 4000
@@ -28,6 +28,21 @@ app.use((req:Request, res: Response, next: NextFunction) => {
 })
 
 
+app.use('/api/testdb', (req: Request, res: Response, next: NextFunction) => {
+    const query = 'SELECT test FROM testdb'
+    req.db.query(query, (err: MysqlError | null, results: any) => {
+        if(err){
+            res.status(500).json({
+                message: 'Connexion échoué',
+                error: err.message,
+                errno: err.errno,
+            })
+            console.log(err.message)
+            return
+        }
+        res.status(201).json(results)
+    })
+})
 
 //Routes
 app.use('/api/auth', userRoutes)
@@ -37,4 +52,5 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs))
 
 app.listen(PORT, () => {
     console.log(`Serveur démarré sur http://localhost:${PORT}`)
+    console.log(`Documention de l'api disponible sur http://localhost:${PORT}/api-docs`)
 })

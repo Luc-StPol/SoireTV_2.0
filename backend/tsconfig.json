@@ -1,25 +1,16 @@
 {
   "compilerOptions": {
-    "target": "es6",                             // Cible JavaScript moderne (ES6)
-    "module": "commonjs",                         // Module utilisé pour Node.js
-    "strict": true,                               // Active le mode strict
-    "esModuleInterop": true,                      // Simplifie les imports de modules CommonJS
-    "skipLibCheck": true,                         // Ignore la vérification de type des fichiers de déclaration
-    "forceConsistentCasingInFileNames": true,     // Vérifie la cohérence des noms de fichiers
-    "resolveJsonModule": true,                    // Permet d'importer des fichiers JSON
+    "target": "ES2020",
+    "module": "commonjs",
+    "strict": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
     "outDir": "./dist",
-    "rootDir": "./src",                          
-    "baseUrl": ".",                               // Définit la racine du projet
-    "paths": {
-      "*": ["node_modules/*"]
-    },
-    "typeRoots": ["./node_modules/@types", "./src/@types"]
+    "rootDir": "./src",
+    "typeRoots" : ["./src/types", "./node_modules/@types"]
   },
-  "include": [
-    "src/**/*.ts",         // Inclut tous les fichiers TypeScript dans `src`
-    "src/express.d"     // Inclut explicitement le fichier de déclaration pour Express
-  ],
-  "exclude": [
-    "node_modules"         // Exclut le dossier `node_modules`
-  ]
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
 }

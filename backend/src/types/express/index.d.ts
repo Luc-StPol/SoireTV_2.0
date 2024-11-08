@@ -1,5 +1,4 @@
-
-import { Pool } from 'mysql'
+import { Pool } from 'mysql2'
 
 //Declare superGlobal type
 
