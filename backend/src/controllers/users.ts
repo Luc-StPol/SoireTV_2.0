@@ -32,7 +32,6 @@ export const signup: RequestHandler = async (req: Request, res: Response) => {
     //Insert into DB
     const query = 'INSERT INTO users (email, password, name) VALUES (?,?,?)';
     req.db.query(query, [email, password, name], (err: mysql.QueryError | null) => {
-      console.log("étape 3 passée")
         if(err){
             res.status(500).json({
                 message: 'Signup error',
