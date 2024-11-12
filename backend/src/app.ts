@@ -5,6 +5,7 @@ import userRoutes from './routes/users'
 import  { MysqlError } from 'mysql';
 import mysql from 'mysql2'
 import 'dotenv/config'
+import cors from 'cors'
 
 const pool: mysql.Pool = mysql.createPool({
     host: process.env.DB_HOST,
@@ -20,6 +21,8 @@ const app: Express = express()
 const PORT = process.env.PORT || 4000
 
 app.use(express.json())
+
+app.use(cors())
 
 //Conection to db
 app.use((req:Request, res: Response, next: NextFunction) => {
