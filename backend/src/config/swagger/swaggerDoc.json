@@ -1,0 +1,215 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Soiree TV API",
+      "description": "Documentation de l'API pour le projet Soiree TV",
+      "version": "1.0.0"
+    },
+    "servers": [
+      {
+        "url": "http://localhost:4000",
+        "description": "Serveur principal"
+      }
+    ],
+    "paths": {
+      "/api/testdb": {
+          "get":{
+            "summary": "Test connexion to db",
+            "responses": {
+              "201": {
+                "description": "Connextion to db succed",
+                "content": {
+                  "application/json": {
+                    "schema" : {
+                      "type": "array",
+                      "items":{
+                        "type": "object",
+                        "properties": {
+                          "id":{
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "400": {
+                "description": "Connexion to db failed",
+                "content": {
+                  "application/json": {
+                    "schema":{
+                      "$ref":"#/components/schemas/ErrorDb"
+                    }
+                  }
+                }
+              }
+            }
+        }
+      },
+      "/api/auth/signup":{
+        "post":{
+          "summary": "Signup user",
+          "requestBody":{
+            "content": {
+              "application/json": {
+                "schema":{
+                  "$ref": "#/components/schemas/SignupRequest"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "User added",
+              "content": {
+                "application/json": {
+                  "schema" : {
+                    "type": "array",
+                    "items":{
+                      "type": "object",
+                      "properties": {
+                        "message":{
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+                "description": "Connexion to db failed",
+                "content": {
+                  "application/json": {
+                    "schema":{
+                      "$ref":"#/components/schemas/ErrorDb"
+                    }
+                  }
+                }
+              }
+          }
+        }
+      },
+      "/api/auth/login": {
+        "post":{
+          "summary": "Login user",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginRequest"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description":"User informations",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items":{
+                      "$ref": "#/components/schemas/LoginResponse"
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Email or password missing"
+            },
+            "500": {
+              "description": "Login error"
+            },
+            "401": {
+              "description": "User not found"
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas":{
+        "ErrorDb":{
+          "type": "object",
+          "properties": {
+            "message":{
+              "type": "string"
+            },
+            "error":{
+              "type": "string"
+            },
+            "errno":{
+              "type": "string"
+            }
+          }
+        },
+        "LoginResponse":{
+          "type":"object",
+          "properties": {
+            "message": {
+              "type": "string",
+              "example":"Login successful"
+            },
+            "user":{
+              "$ref":"#/components/schemas/UserInfo"
+            }
+          }
+        },
+        
+        "UserInfo":{
+          "type":"object",
+          "properties": {
+            "id": {
+              "type":"string"
+            },
+            "email":{
+              "type":"string",
+              "format": "email",
+              "example": "user@example.com"
+            },
+            "token":{
+              "type":"string",
+              "description":"JWT token for user authentification"
+            }
+          }
+        },
+        "LoginRequest":{
+          "type": "object",
+          "properties": {
+            "email": {
+              "type":"string",
+              "format":"email",
+              "example":"john@doe.fr"
+            },
+            "password": {
+              "type":"string",
+              "format":"password",
+              "example":"J0hndoe!"
+            }
+          }
+        },
+        "SignupRequest":{
+          "type": "object",
+          "properties": {
+            "email": {
+              "type":"string",
+              "format":"email",
+              "example":"john@doe.fr"
+            },
+            "password": {
+              "type":"string",
+              "format":"password",
+              "example":"J0hndoe!"
+            },
+            "name":{
+              "type": "string",
+              "example":"John"
+            }
+          }
+        }
+      }
+    }
+  }
