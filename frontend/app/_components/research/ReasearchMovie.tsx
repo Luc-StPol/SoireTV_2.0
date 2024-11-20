@@ -1,4 +1,4 @@
-import ResearchBar from "./researchBar";
+import ResearchBar from "./ResearchBar";
 
 export default function ResearchMovie(){
     return (
