@@ -1,6 +1,5 @@
 'use client'
 
-import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/app/context/Authorization";
 
@@ -12,6 +11,6 @@ export default function Logout(){
         router.push('/login')
     }
     return (
-        <Button onClick={logoutUser}>Se déconnecter</Button>
+        <button className="h-14 mx-8" onClick={logoutUser}>Se déconnecter</button>
     )
 }

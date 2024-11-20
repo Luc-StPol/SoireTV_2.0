@@ -1,0 +1,33 @@
+
+.authentificationBackground {
+    background: #DAD1C0;
+    background: radial-gradient(circle at center, #DAD1C0, #9E836E);
+    height: 100%;
+    position: fixed;
+    overflow: auto;
+    width: 100%;
+    height: 100%;
+}
+
+.header {
+    background: linear-gradient(to top right, #DAD1C0, #9E836E);
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 105px;
+         
+}
+.onglet {
+    a {
+        background: var(--primary);
+        padding: 4px 13px 5px 8px;
+        margin: 1px;
+        border-radius: 0 0 20px 5px;
+    }
+}
+
+.leftHeader {
+    position: sticky;
+    overflow: auto y;
+}

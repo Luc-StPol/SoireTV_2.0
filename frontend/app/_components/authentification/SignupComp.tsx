@@ -1,9 +1,9 @@
 "use client";
 
-import { Button } from "@/components/ui/button"
 import { useState } from "react"
 import { addUser } from "@/lib/api/authentification"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
+import styles from '@/app/styles/form.module.scss'
 
 export default function SignupComp(){
 
@@ -34,23 +34,21 @@ export default function SignupComp(){
      }
 
     return (
-        <div>
-            <form method="post" onSubmit={handleAddUser}>
-            <div>
-                <label>Email</label>
-                <input type="email" name="userEmail" id="email" onChange={handleChange}/>
+        <div className={`${styles.formContainer} flex-col items-center`}>
+            <h3>Créer un compte</h3>
+            <form method="post" onSubmit={handleAddUser} >
+            <div className={styles.formInput}>
+                <input type="email" name="userEmail" id="email" onChange={handleChange} placeholder="Email"/>
             </div>
-            <div>
-                <label>Prénom</label>
-                <input type="text" name="userName" onChange={handleChange} />
+            <div className={styles.formInput}>
+                <input type="text" name="userName" onChange={handleChange} placeholder="Nom d'utilisateur" />
             </div>
-            <div>
-                <label>Mot de passe</label>
-                <input type="password" name="userPassword" onChange={handleChange} />
+            <div className={styles.formInput}>
+                <input type="password" name="userPassword" onChange={handleChange} placeholder="Mot de passe" />
             </div>
-            <div>
-            <Button type="submit">S&apos;inscrire</Button>
-        </div>
+            <div className={`${styles.formButton} justify-center m-11`}>
+            <button type="submit">S&apos;inscrire</button>
+            </div>
         </form>
         
         </div>

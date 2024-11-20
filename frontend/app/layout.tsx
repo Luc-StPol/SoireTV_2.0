@@ -3,13 +3,16 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Header from "./_components/Navigation/Header";
 import { AuthProvider } from "./context/Authorization";
+import {Roboto_Mono} from 'next/font/google'
+import LayerLeft from "./_components/Navigation/LayerLeft";
 
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
+const RobotoMono = Roboto_Mono({
+  subsets: ['latin'],
+  variable: '--font-caption'
 });
+ 
+
 const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
@@ -32,11 +35,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${RobotoMono.variable} ${geistMono.variable} antialiased`}
       >
         <AuthProvider>
         <Header />
+        <LayerLeft>
         {children}
+        </LayerLeft>
         </AuthProvider>
       </body>
     </html>
