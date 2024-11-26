@@ -1,4 +1,5 @@
-import LoginComp from "../_components/authentification/LoginComp";
+
+import LoginComp from "@/app/_components/authentification/LoginComp";
 import Image from "next/image";
 import Logo from "@/public/images/SoireeTV_Icone-removebg-transformed.png"
 import styles from "@/app/styles/component.module.scss"

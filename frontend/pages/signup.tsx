@@ -1,4 +1,4 @@
-import SignupComp from "../_components/authentification/SignupComp";
+import SignupComp from "@/app/_components/authentification/SignupComp";
 import styles from "@/app/styles/component.module.scss"
 
 export default function Signup(){
