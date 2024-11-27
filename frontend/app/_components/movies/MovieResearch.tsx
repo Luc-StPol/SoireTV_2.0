@@ -38,7 +38,7 @@ export default function MovieResearch(){
         <div className="grid grid-cols-4 gap-28 m-9">
            {
             moviesList.map((movie: MovieType) => (
-                <Link key={movie.id} href={`/movie-page/${movie.id}`}>
+                <Link key={movie.id} href={`/moviePage/${movie.id}`}>
                 <MovieCard movie = {movie} />
                 </Link>
             ))

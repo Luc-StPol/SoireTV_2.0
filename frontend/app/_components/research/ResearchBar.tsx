@@ -16,7 +16,7 @@ export default function ResearchBar(){
         if(!researchName){
             return
         }
-        router.push('/movieResearchList')
+        router.push('/movieResearchList') // to do : add path to parent
         getResearchName(researchName)
     }
     
