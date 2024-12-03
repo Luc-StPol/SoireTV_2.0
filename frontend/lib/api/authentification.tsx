@@ -9,7 +9,7 @@ interface UserData {
 }
 
 export const loginUser = async (userData: UserData) => {
-    const response = await axios.post(`${API_URL}/auth/login`, {
+    const response = await axios.post(`${API_URL}/users/login`, {
         email: userData.userEmail,
         password: userData.userPassword
     })
@@ -17,7 +17,7 @@ export const loginUser = async (userData: UserData) => {
 }
 
 export const addUser = async (userData: UserData) => {
-    const response = await axios.post(`${API_URL}/auth/signup`, {
+    const response = await axios.post(`${API_URL}/users/signup`, {
         email: userData.userEmail,
         password: userData.userPassword,
         name: userData.userName
