@@ -1,4 +1,8 @@
 
 export default function HomePage(){
-    return <h1>Soirée TV</h1>
+    return (
+        <div className="ml-96">
+            <h1>Soirée TV</h1>
+        </div>
+    )
 }

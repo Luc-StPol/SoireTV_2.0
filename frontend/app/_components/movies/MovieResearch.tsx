@@ -35,7 +35,7 @@ export default function MovieResearch(){
     }
 
     return (   
-        <div className="grid grid-cols-4 gap-28 m-9">
+        <div className="grid md:grid-cols-3 lg:grid-cols-4 md:gap-28 md:m-9 max-md:justify-center my-8">
            {
             moviesList.map((movie: MovieType) => (
                 <Link key={movie.id} href={`/moviePage/${movie.id}`}>
