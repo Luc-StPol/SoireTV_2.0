@@ -15,6 +15,20 @@ h1 {
   font-size: 150px;
 }
 
+h3 {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+h4 {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+span {
+  color: var(--text-secondary);
+}
+
 button {
   background-color: var(--primary-dark);
   border: solid 4px white;
@@ -31,8 +45,8 @@ button {
 @layer base {
   :root {
     --background: #FFFFFF;
-    --background-radial-gradient:radial-gradient(circle at center, #DAD1C0, #9E836E);
-    --background-linear-gradient:linear-gradient(to top right, #DAD1C0, #9E836E);
+    --background-radial-gradient: radial-gradient(circle at center, #DAD1C0, #9E836E);
+    --background-linear-gradient: linear-gradient(to top right, #DAD1C0, #9E836E);
     --primary: #D6C7B3;
     --primary-dark: #B9A48D;
     --primary-light: #CFD8D7;
