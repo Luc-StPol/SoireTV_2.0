@@ -9,7 +9,7 @@ body {
 }
 
 h1 {
-  font-family: "Amatic SC", sans-serif;
+  font-family: 'Amatic SC', sans-serif;
   font-weight: 700;
   font-style: normal;
   font-size: 150px;
@@ -44,20 +44,27 @@ button {
 
 @layer base {
   :root {
-    --background: #FFFFFF;
-    --background-radial-gradient: radial-gradient(circle at center, #DAD1C0, #9E836E);
-    --background-linear-gradient: linear-gradient(to top right, #DAD1C0, #9E836E);
-    --primary: #D6C7B3;
-    --primary-dark: #B9A48D;
-    --primary-light: #CFD8D7;
-    --primary-mid: #C7B39F;
-    --secondary: #EC302B;
-    --secondary-dark: #C71C1F;
+    --background: #ffffff;
+    --background-radial-gradient: radial-gradient(
+      circle at center,
+      #dad1c0,
+      #9e836e
+    );
+    --background-linear-gradient: linear-gradient(
+      to top right,
+      #dad1c0,
+      #9e836e
+    );
+    --primary: #d6c7b3;
+    --primary-dark: #b9a48d;
+    --primary-light: #cfd8d7;
+    --primary-mid: #c7b39f;
+    --secondary: #ec302b;
+    --secondary-dark: #c71c1f;
     --text-primary: #000000;
     --text-secondary: #757575;
-    --divider: #9E826D;
+    --divider: #9e826d;
   }
-
 }
 
 @layer base {

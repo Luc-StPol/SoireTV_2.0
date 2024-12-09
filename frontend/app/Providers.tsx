@@ -1,19 +1,18 @@
-'use client'
+'use client';
 
-import { AuthProvider } from "./context/Authorization";
-import { ResearchDataProvider } from "./context/ResearchData";
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
+
+import { AuthProvider } from './context/Authorization';
+import { ResearchDataProvider } from './context/ResearchData';
 
 type ProviderProps = {
-    children: ReactNode
-}
+  children: ReactNode;
+};
 
-export default function Provider({children}: ProviderProps) {
-    return (
-        <AuthProvider>
-          <ResearchDataProvider>
-            {children}
-          </ResearchDataProvider>
-        </AuthProvider>
-    )
+export default function Provider({ children }: ProviderProps) {
+  return (
+    <AuthProvider>
+      <ResearchDataProvider>{children}</ResearchDataProvider>
+    </AuthProvider>
+  );
 }

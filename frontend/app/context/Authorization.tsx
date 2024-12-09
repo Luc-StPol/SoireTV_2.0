@@ -1,55 +1,59 @@
-'use client'
+'use client';
 
-import {createContext, useContext, useState, useEffect, ReactNode} from 'react'
-import Cookies from 'js-cookie'
+import Cookies from 'js-cookie';
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from 'react';
 
 interface AuthContextType {
-    isAuthentificated: boolean,
-    login: (token:string) => void
-    logout: () => void
+  isAuthentificated: boolean;
+  login: (token: string, userId: string) => void;
+  logout: () => void;
 }
 
-const AuthContext = createContext<AuthContextType | null>(null)
+const AuthContext = createContext<AuthContextType | null>(null);
 
 interface AuthProviderProps {
-    children: ReactNode
+  children: ReactNode;
 }
 
-export const AuthProvider:React.FC<AuthProviderProps> = ({children}) => {
-    const [isAuthentificated, setIsAuthentificated] = useState<boolean>(false)
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  const [isAuthentificated, setIsAuthentificated] = useState<boolean>(false);
 
-    useEffect(() => {
-        const token = Cookies.get('token')
-        setIsAuthentificated(!!token)
-    }, [])
+  useEffect(() => {
+    const token = Cookies.get('token');
+    setIsAuthentificated(!!token);
+  }, []);
 
-    const login = (token: string) => {
-        Cookies.set('token', token, {expires: 7, path:'/'})
-        setIsAuthentificated(true)
-    }
-    
-    const logout = () => {
-        Cookies.remove('token', {path: '/'})
-        setIsAuthentificated(false)
-    }
+  const login = (token: string, userId: string) => {
+    Cookies.set('token', token, { expires: 7, path: '/' });
+    Cookies.set('userId', userId, { expires: 7, path: '/userId' });
+    setIsAuthentificated(true);
+  };
 
-    return (
-        <AuthContext.Provider value={({ isAuthentificated, login, logout})}>
-            {children}
-        </AuthContext.Provider>
-    )
-}
+  const logout = () => {
+    Cookies.remove('token', { path: '/' });
+    Cookies.remove('userId', { path: '/userId' });
+    setIsAuthentificated(false);
+  };
 
-export const useAuth =():AuthContextType => {
-    const context = useContext(AuthContext)
+  return (
+    <AuthContext.Provider value={{ isAuthentificated, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
 
-    if(!context){
-        throw new Error('useAuth must be used within an AuthProvider')
-    }
+export const useAuth = (): AuthContextType => {
+  const context = useContext(AuthContext);
 
-    return context
-}
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
 
-
-
-    
+  return context;
+};

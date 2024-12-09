@@ -1,105 +1,97 @@
-
 .cardSm {
-    display: flex;
-    flex-direction: column;
-    width: 170px;
-    margin: 10px;
-    margin-top:25px;
-    box-shadow: 0px 4px 25px 6px rgba(0,0,0,0.33);
-    border-radius: 0 0 5px 5px;
-    .cardTitle {
-       margin: 8px;
+  display: flex;
+  flex-direction: column;
+  width: 170px;
+  margin: 10px;
+  margin-top: 25px;
+  box-shadow: 0px 4px 25px 6px rgba(0, 0, 0, 0.33);
+  border-radius: 0 0 5px 5px;
+  .cardTitle {
+    margin: 8px;
+  }
+  .cardPoster {
+    img {
+      border-radius: 5px 5px 0 0;
     }
-    .cardPoster {
-        img {
-            border-radius: 5px 5px 0 0;
-        }
-        
-    }
+  }
 }
 
 .cardL {
-    margin-top: 100px;
-    .cardL_Details {
-  
-        .cardL_Title {
-            h3 {
-                padding-bottom: 10px;
-            }
-        }
-        .cardL_Content {
-            p {
-                display: flex;
-                align-items: center;
-                margin: 5px 0;
-            }
-        }
-        .cardL_Synopsis {
-            margin-right: 15px;
-            margin-bottom: 15px;
-            h4 {
-                margin-bottom: 10px;
-            }
-        }
+  margin-top: 100px;
+  .cardL_Details {
+    .cardL_Title {
+      h3 {
+        padding-bottom: 10px;
+      }
     }
-    
+    .cardL_Content {
+      p {
+        display: flex;
+        align-items: center;
+        margin: 5px 0;
+      }
+    }
+    .cardL_Synopsis {
+      margin-right: 15px;
+      margin-bottom: 15px;
+      h4 {
+        margin-bottom: 10px;
+      }
+    }
+  }
 }
 
 @media (min-width: 1280px) {
-
-    .cardL {
-        margin:15px;
+  .cardL {
+    margin: 15px;
+  }
+  .cardL_Details {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 6px;
+    .cardL_Poster {
+      grid-row: span 4 / span 4;
+      width: 100%;
     }
-    .cardL_Details {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        grid-template-rows: repeat(4, 1fr);
-        gap: 6px;
-        .cardL_Poster  {
-            grid-row: span 4 / span 4;
-            width: 100%;
-           }
-           .cardL_Title {
-               grid-column: span 3 / span 3;
-           }
-           .cardL_Content {
-               grid-column: span 3 / span 3;
-               grid-row: span 3 / span 3;
-               grid-column-start: 2;
-               grid-row-start: 2;
-           }
-           .cardL_Synopsis {
-               grid-column: span 4 / span 4;
-               grid-row-start: 5;
-               margin-top: 45px;
-           }
-
+    .cardL_Title {
+      grid-column: span 3 / span 3;
     }
+    .cardL_Content {
+      grid-column: span 3 / span 3;
+      grid-row: span 3 / span 3;
+      grid-column-start: 2;
+      grid-row-start: 2;
+    }
+    .cardL_Synopsis {
+      grid-column: span 4 / span 4;
+      grid-row-start: 5;
+      margin-top: 45px;
+    }
+  }
 }
 
 @media (max-width: 1280px) {
-
-    .cardL_Details {
-        display: flex;
-        flex-wrap: wrap;
-            .cardL_Poster  {
-                width: 50%;
-                padding-bottom: 15px;
-           }
-           .cardL_Title {
-            padding-left: 15px;
-            flex: 1; 
-            word-wrap: break-word; 
-            word-break: break-word; 
-            white-space: normal;
-
-            h3 {
-                font-size: medium;
-            }
-           }
-           .cardL_Content {
-            padding-bottom: 15px;
-           }
+  .cardL_Details {
+    display: flex;
+    flex-wrap: wrap;
+    .cardL_Poster {
+      width: 50%;
+      padding-bottom: 15px;
     }
+    .cardL_Title {
+      padding-left: 15px;
+      flex: 1;
+      word-wrap: break-word;
+      word-break: break-word;
+      white-space: normal;
 
+      h3 {
+        font-size: medium;
+      }
+    }
+    .cardL_Content {
+      padding-bottom: 15px;
+    }
+  }
 }

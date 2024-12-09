@@ -1,5 +1,5 @@
-import ResearchBar from "./ResearchBar";
+import ResearchBar from './ResearchBar';
 
-export default function ResearchFriend(){
-    return <ResearchBar placeholder="Rechercher un ami" link="/"/>
+export default function ResearchFriend() {
+  return <ResearchBar placeholder="Rechercher un ami" link="/" />;
 }
