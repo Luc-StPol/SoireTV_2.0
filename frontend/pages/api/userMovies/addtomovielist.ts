@@ -1,3 +1,4 @@
+import { addMovie, getMovie } from '@/lib/api/usersMovieList';
 import db from '@/lib/db';
 import { NextApiRequest, NextApiResponse } from 'next';
 
@@ -7,7 +8,7 @@ interface movieList {
   typeList: string;
 }
 
-export default function addToMovieToList(
+export default async function addToMovieList(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
@@ -16,6 +17,21 @@ export default function addToMovieToList(
   }
 
   const { userId, movieId, typeList }: movieList = req.body;
+
+  if (typeList === 'favoritesmovies') {
+    const data = {
+      userId,
+      movieId,
+      typeList: 'watchedmovies',
+    };
+    const isMovieWatched = await getMovie(data);
+    if (!isMovieWatched) {
+      const response = await addMovie(data);
+      if (!response) {
+        res.status(500).json({ message: "Movie can't be added" });
+      }
+    }
+  }
 
   const query = `INSERT INTO ${typeList} (userId, movieId) 
   SELECT ?, ? 

@@ -1,3 +1,4 @@
+import { deleteMovie, getMovie } from '@/lib/api/usersMovieList';
 import db from '@/lib/db';
 import { NextApiRequest, NextApiResponse } from 'next';
 
@@ -7,7 +8,7 @@ interface movieList {
   typeList: string;
 }
 
-export default function removeFromMovieList(
+export default async function removeFromMovieList(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
@@ -15,6 +16,21 @@ export default function removeFromMovieList(
     return res.status(405).json({ error: 'Method not allowed' });
   }
   const { userId, movieId, typeList }: movieList = req.body;
+
+  if (typeList === 'watchedmovies') {
+    const data = {
+      userId,
+      movieId,
+      typeList: 'favoritesmovies',
+    };
+    const isMovieWatched = await getMovie(data);
+    if (isMovieWatched) {
+      const response = await deleteMovie(data);
+      if (!response) {
+        res.status(500).json({ message: "Movie can't be deleted" });
+      }
+    }
+  }
   const query = `DELETE FROM ${typeList} WHERE userId = ? AND movieId = ?`;
   db.query(query, [userId, movieId], (err) => {
     if (err) {
