@@ -4,7 +4,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 interface MovieList {
     userId: string
-    movieId: string
+    movieId?: string
     typeList?: string
     rating?: number
 }
@@ -19,8 +19,17 @@ export const addMovie = async(data: MovieList) => {
     return response.data
 }
 
-export const getMovieList = async(data: MovieList) => {
+export const getFromMovieList = async(data: MovieList) => {
     const response = await axios.post(`${API_URL}/usermovies/getfrommovielist`,{
+        userId: data.userId,
+        typeList: data.typeList
+    }
+    )
+    return response.data
+}
+
+export const getMovieList = async(data: MovieList) => {
+    const response = await axios.post(`${API_URL}/usermovies/getmovielist`,{
         userId: data.userId,
         typeList: data.typeList
     }
@@ -35,6 +44,11 @@ export const getMovie = async(data: MovieList) => {
         typeList: data.typeList
     }
     )
+    return response.data
+}
+
+export const getBestMovies = async(userId: string) => {
+    const response = await axios.get(`${API_URL}/usermovies/getbestmovies/${userId}`)
     return response.data
 }
 
@@ -56,6 +70,7 @@ export const addRating = async(data: MovieList) => {
     )
     return response.data
 }
+
 
 export const deleteMovie = async(data: MovieList) => {
     const response = await axios.post(`${API_URL}/usermovies/removefrommovielist`,{

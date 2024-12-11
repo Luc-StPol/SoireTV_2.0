@@ -7,23 +7,22 @@ import { useEffect, useState } from 'react';
 import { getUser } from '@/lib/api/users';
 
 import EditProfil from './EditProfil';
+import UserBestMovies from './UserBestMovies';
 
 export default function UserProfil() {
   const [userProfil, setUserProfil] = useState<UserType>();
-
+  const userId = Cookies.get('userId');
+  if (!userId) {
+    return null;
+  }
   useEffect(() => {
     const fetchUserProfil = async () => {
-      const userId = Cookies.get('userId');
-      if (!userId) {
-        return null;
-      }
       const response = await getUser(userId);
       setUserProfil(response.results[0]);
     };
     fetchUserProfil();
   }, []);
 
-  console.log(userProfil);
 
   if (!userProfil) {
     return (
@@ -49,10 +48,7 @@ export default function UserProfil() {
         <h3 className="p-11">{userProfil.name} </h3>
       </div>
       <div>
-        <h4 className="my-12">Vos films préférés</h4>
-        <div>
-          <p>Le seigneur des anneaux</p>
-        </div>
+       <UserBestMovies userId={userId} />
       </div>
     </div>
   );

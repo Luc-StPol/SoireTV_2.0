@@ -2,13 +2,13 @@
 
 import Link from 'next/link';
 import {
-  ReactElement,
+  AwaitedReactNode,
   JSXElementConstructor,
+  ReactElement,
   ReactNode,
   ReactPortal,
-  AwaitedReactNode,
-  useState,
   useEffect,
+  useState,
 } from 'react';
 
 import { useAuth } from '@/app/context/Authorization';
@@ -63,9 +63,9 @@ export default function LayerLeft(props: {
           </div>
           <div>
             <div className={styles.onglet}>
-              <Link href="/">Film à voir</Link>
-              <Link href="/">Vos Favoris</Link>
-              <Link href="/">Actualitées</Link>
+              <Link href="/user/watchlist">Film à voir</Link>
+              <Link href="/user/favoris">Vos Favoris</Link>
+              <Link href="/user/watched">Vos notations</Link>
             </div>
             <div className="mt-40">{props.children}</div>
           </div>
