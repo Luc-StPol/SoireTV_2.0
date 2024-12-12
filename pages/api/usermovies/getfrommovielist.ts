@@ -1,5 +1,6 @@
-import db from '@/lib/db';
 import { NextApiRequest, NextApiResponse } from 'next';
+
+import db from '@/lib/db';
 
 interface movieList {
   userId: string;

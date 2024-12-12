@@ -1,5 +1,5 @@
-import GetMovieList from "@/app/_components/movies/GetMovieList";
+import GetMovieList from '@/app/_components/movies/GetMovieList';
 
-export default function Watched(){
-    return <GetMovieList typeList="watchedmovies"/>
+export default function Watched() {
+  return <GetMovieList typeList="watchedmovies" />;
 }

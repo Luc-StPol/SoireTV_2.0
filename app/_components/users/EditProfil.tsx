@@ -1,6 +1,8 @@
+'use client';
+
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { SetStateAction, useState } from 'react';
+import { useState } from 'react';
 
 import styles from '@/app/styles/form.module.scss';
 import {
@@ -10,15 +12,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+
 import EditUserPp from './EditUserPp';
 
 export default function EditProfil() {
+  const [userPp, setUserPp] = useState(String);
 
-  const [userPp, setUserPp] = useState()
-
-  const handleUserPpChange = (newUserPp: SetStateAction<undefined>) => {
-    setUserPp(newUserPp)
-  }
+  const handleUserPpChange = (newUserPp: string) => {
+    setUserPp(newUserPp);
+  };
 
   const [userData, setUserData] = useState({
     userEmail: '',
@@ -33,10 +35,10 @@ export default function EditProfil() {
     });
   };
 
-  const handleSubmit = (e: { preventDefault: () => void; }) => {
-    e.preventDefault()
-    console.log(userPp)
-  }
+  const handleSubmit = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    console.log(userPp);
+  };
 
   return (
     <Dialog>
@@ -82,10 +84,10 @@ export default function EditProfil() {
                 />
               </div>
               <div>
-                <EditUserPp OnUserPpChange={handleUserPpChange}/>
+                <EditUserPp OnUserPpChange={handleUserPpChange} />
               </div>
-              <div className='flex justify-center mb-1 mt-4'>
-              <button>Enregistrer</button>
+              <div className="mb-1 mt-4 flex justify-center">
+                <button>Enregistrer</button>
               </div>
             </form>
           </div>

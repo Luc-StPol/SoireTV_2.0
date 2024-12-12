@@ -1,6 +1,7 @@
+import { NextApiRequest, NextApiResponse } from 'next';
+
 import { deleteMovie, getMovie } from '@/lib/api/usersMovieList';
 import db from '@/lib/db';
-import { NextApiRequest, NextApiResponse } from 'next';
 
 interface movieList {
   userId: string;

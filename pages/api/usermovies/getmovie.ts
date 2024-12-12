@@ -1,6 +1,7 @@
-import db from '@/lib/db';
 import { RowDataPacket } from 'mysql2';
 import { NextApiRequest, NextApiResponse } from 'next';
+
+import db from '@/lib/db';
 
 interface movieList {
   userId: string;

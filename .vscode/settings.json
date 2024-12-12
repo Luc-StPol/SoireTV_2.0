@@ -1,19 +1,18 @@
 {
-    "editor.formatOnSave": true, // Active le formatage automatique lors de la sauvegarde
-    "editor.defaultFormatter": "esbenp.prettier-vscode", // Définit Prettier comme formateur par défaut
-    "[javascript]": {
-      "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
-    "[typescript]": {
-      "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
-    "[json]": {
-      "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
-    "eslint.format.enable": true, // Permet à ESLint de corriger les erreurs de formatage
-    "editor.codeActionsOnSave": {
-      "source.fixAll": "explicit",
-      "source.organizeImports": "explicit"
-    }
+  "editor.formatOnSave": true, // Active le formatage automatique lors de la sauvegarde
+  "editor.defaultFormatter": "esbenp.prettier-vscode", // Définit Prettier comme formateur par défaut
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "eslint.format.enable": true, // Permet à ESLint de corriger les erreurs de formatage
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.organizeImports": "explicit"
   }
-  
+}

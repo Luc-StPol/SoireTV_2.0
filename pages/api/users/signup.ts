@@ -1,4 +1,4 @@
-import bcrypt from 'bcryptjs';
+import { hash } from 'bcryptjs';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import db from '@/lib/db';
@@ -17,7 +17,7 @@ export default async function signup(
     const { name, email, password: plainPassword }: User = req.body;
 
     //hash password
-    const password = await bcrypt.hash(plainPassword, 10);
+    const password = await hash(plainPassword, 10);
 
     //Email test
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

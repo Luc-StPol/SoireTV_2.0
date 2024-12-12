@@ -12,19 +12,18 @@ import UserBestMovies from './UserBestMovies';
 export default function UserProfil() {
   const [userProfil, setUserProfil] = useState<UserType>();
   const userId = Cookies.get('userId');
-  if (!userId) {
-    return null;
-  }
   useEffect(() => {
     const fetchUserProfil = async () => {
+      if (!userId) {
+        return null;
+      }
       const response = await getUser(userId);
       setUserProfil(response.results[0]);
     };
     fetchUserProfil();
-  }, []);
+  });
 
-
-  if (!userProfil) {
+  if (!userProfil || !userId) {
     return (
       <div>
         <p>Chargement...</p>
@@ -48,7 +47,7 @@ export default function UserProfil() {
         <h3 className="p-11">{userProfil.name} </h3>
       </div>
       <div>
-       <UserBestMovies userId={userId} />
+        <UserBestMovies userId={userId} />
       </div>
     </div>
   );

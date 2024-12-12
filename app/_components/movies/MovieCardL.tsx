@@ -1,7 +1,10 @@
+'use client';
+
 import Image from 'next/image';
+import { SetStateAction, useState } from 'react';
 
 import styles from '@/app/styles/movieCard.module.scss';
-import { SetStateAction, useState } from 'react';
+
 import MovieRating from './MovieRating';
 import UpdateMovieList from './UpdateMovieList';
 
@@ -21,19 +24,19 @@ export default function MovieCardL(props: {
   }).format(movieReleaseDateUs);
   const movieRate = parseInt(movie.popularity) / 10;
 
-  const [rating, setRating] = useState(Number)
-  const [updateFavorites, setUpdateFavorites] = useState(Boolean)
-  const [updateWatched, setUpdateWatched] = useState(Boolean)
+  const [rating, setRating] = useState(Number);
+  const [updateFavorites, setUpdateFavorites] = useState(Boolean);
+  const [updateWatched, setUpdateWatched] = useState(Boolean);
 
   const handleRating = (newRating: SetStateAction<number>) => {
-    setRating(newRating)
-  }
-  const handleUpdateFavorites = (newRating: SetStateAction<boolean> ) => {
-    setUpdateFavorites(newRating)
-  }
-  const handleUpdateWatched = (newRating: SetStateAction<boolean> ) => {
-    setUpdateWatched(newRating)
-  }
+    setRating(newRating);
+  };
+  const handleUpdateFavorites = (newRating: SetStateAction<boolean>) => {
+    setUpdateFavorites(newRating);
+  };
+  const handleUpdateWatched = (newRating: SetStateAction<boolean>) => {
+    setUpdateWatched(newRating);
+  };
 
   return (
     <div className={`${styles.cardL} m-2 md:ml-12`}>
@@ -79,40 +82,39 @@ export default function MovieCardL(props: {
             ))}
           </p>
           <p>Note :&nbsp;{movieRate}/10 </p>
-          <div className='flex flex-col'>
-          <div className='flex  my-3 md:mt-11'>
-          <UpdateMovieList 
-          movieList="watchlist"
-          buttonMessage={["+ film à voir","- films à voir"]}
-          movieId = {movie.id}
-          />
-          <UpdateMovieList 
-          movieList="watchedmovies"
-          buttonMessage={["+ film vu","- film vu"]}
-          movieId = {movie.id}
-          setRating={handleRating}
-          setUpdateFavorites={handleUpdateFavorites}
-          updateFavorites={updateFavorites}
-          updateWatched={updateWatched}
-          />
-          <UpdateMovieList 
-          movieList='favoritesmovies'
-          movieId={movie.id}
-          updateFavorites={updateFavorites}
-          setUpdateWatched={handleUpdateWatched}
-          updateWatched={updateWatched}
-          />
-          </div>
-          <div className='mx-3 mt-4'>
-            <MovieRating 
-            rating={rating} 
-            setRating={handleRating} 
-            movieId={movie.id}
-            setUpdateWatched={handleUpdateWatched}
-            updateWatched={updateWatched}
-            
-            />
-          </div>
+          <div className="flex flex-col">
+            <div className="my-3  flex md:mt-11">
+              <UpdateMovieList
+                movieList="watchlist"
+                buttonMessage={['+ film à voir', '- films à voir']}
+                movieId={movie.id}
+              />
+              <UpdateMovieList
+                movieList="watchedmovies"
+                buttonMessage={['+ film vu', '- film vu']}
+                movieId={movie.id}
+                setRating={handleRating}
+                setUpdateFavorites={handleUpdateFavorites}
+                updateFavorites={updateFavorites}
+                updateWatched={updateWatched}
+              />
+              <UpdateMovieList
+                movieList="favoritesmovies"
+                movieId={movie.id}
+                updateFavorites={updateFavorites}
+                setUpdateWatched={handleUpdateWatched}
+                updateWatched={updateWatched}
+              />
+            </div>
+            <div className="mx-3 mt-4">
+              <MovieRating
+                rating={rating}
+                setRating={handleRating}
+                movieId={movie.id}
+                setUpdateWatched={handleUpdateWatched}
+                updateWatched={updateWatched}
+              />
+            </div>
           </div>
         </div>
         <div className={`${styles.cardL_Synopsis}`}>

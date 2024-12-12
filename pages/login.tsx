@@ -1,10 +1,19 @@
+import Cookies from 'js-cookie';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 import LoginComp from '@/app/_components/authentification/LoginComp';
 import styles from '@/app/styles/component.module.scss';
 import Logo from '@/public/images/SoireeTV_Icone-removebg-transformed.png';
 
 export default function Login() {
+  const token = Cookies.get('token');
+  const userId = Cookies.get('userId');
+  const router = useRouter();
+
+  if (token || userId) {
+    router.push('/');
+  }
   return (
     <div className={styles.authentificationBackground}>
       <div className="flex flex-col">
