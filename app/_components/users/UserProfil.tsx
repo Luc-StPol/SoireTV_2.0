@@ -21,7 +21,8 @@ export default function UserProfil() {
       setUserProfil(response.results[0]);
     };
     fetchUserProfil();
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (!userProfil || !userId) {
     return (

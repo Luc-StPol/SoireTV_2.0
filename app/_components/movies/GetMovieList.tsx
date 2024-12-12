@@ -33,7 +33,8 @@ export default function GetMovieList(props: { typeList: string }) {
       setMovies(response.results);
     };
     fetchMovies();
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (!movies) {
     return (

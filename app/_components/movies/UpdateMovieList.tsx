@@ -54,7 +54,8 @@ export default function UpdateMovieList(props: propsType) {
       }
     };
     isMovieExist();
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     // Update favoritesmovies icon if movies is deleted from watched list
