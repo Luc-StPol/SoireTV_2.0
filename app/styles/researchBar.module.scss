@@ -1,0 +1,22 @@
+.searchBar {
+  margin: 0 25px;
+  .searchBarInput {
+    display: flex;
+    input {
+      border: solid 1px black;
+      border-right-width: 0;
+      border-radius: 30px 0 0 30px;
+      width: 100%;
+      text-indent: 10px;
+      &:focus {
+        outline: none;
+      }
+    }
+    button {
+      background-color: white;
+      border: solid 1px black;
+      border-left-width: 0;
+      border-radius: 0 30px 30px 0;
+    }
+  }
+}

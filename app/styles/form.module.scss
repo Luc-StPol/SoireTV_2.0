@@ -1,0 +1,26 @@
+.dialogContainer {
+  background: var(--background-radial-gradient);
+}
+
+.formContainer {
+  display: flex;
+  margin: 15px;
+  padding: 10px;
+  h3 {
+    margin: 15px;
+  }
+  .formInput {
+    display: flex;
+    flex-direction: column;
+    width: 370px;
+    input {
+      border: solid 1px var(--text-secondary);
+      margin: 15px;
+      text-indent: 5px;
+      height: 50px;
+    }
+  }
+  .formButton {
+    display: flex;
+  }
+}

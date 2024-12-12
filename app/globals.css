@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+h1 {
+  font-family: 'Amatic SC', sans-serif;
+  font-weight: 700;
+  font-style: normal;
+  font-size: 150px;
+}
+
+h3 {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+h4 {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+span {
+  color: var(--text-secondary);
+}
+
+button {
+  background-color: var(--primary-dark);
+  border: solid 4px white;
+  border-radius: 15px;
+  padding: 8px;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@layer base {
+  :root {
+    --background: #ffffff;
+    --background-radial-gradient: radial-gradient(
+      circle at center,
+      #dad1c0,
+      #9e836e
+    );
+    --background-linear-gradient: linear-gradient(
+      to top right,
+      #dad1c0,
+      #9e836e
+    );
+    --primary: #d6c7b3;
+    --primary-dark: #b9a48d;
+    --primary-light: #cfd8d7;
+    --primary-mid: #c7b39f;
+    --secondary: #ec302b;
+    --secondary-dark: #c71c1f;
+    --text-primary: #000000;
+    --text-secondary: #757575;
+    --divider: #9e826d;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
