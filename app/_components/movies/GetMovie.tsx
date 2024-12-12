@@ -24,7 +24,8 @@ export default function GetMovie(props: { movie: Movie }) {
       }
     };
     fetchMovie();
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (!movie) {
     return (

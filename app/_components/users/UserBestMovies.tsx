@@ -22,12 +22,10 @@ export default function UserBestMovies(props: { userId: string }) {
     const fetchMovie = async () => {
       const response = await getBestMovies(props.userId);
       setMovieList(response);
-      console.log('movie list:', movieList);
     };
     fetchMovie();
-  });
-
-  console.log(movieList);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (!movieList) {
     return <div>Chargement ...</div>;
