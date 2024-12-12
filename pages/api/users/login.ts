@@ -1,5 +1,5 @@
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import { compare } from 'bcryptjs';
+import { sign } from 'jsonwebtoken';
 import { RowDataPacket } from 'mysql2';
 import { NextApiRequest, NextApiResponse } from 'next';
 
@@ -39,13 +39,13 @@ export default function login(req: NextApiRequest, res: NextApiResponse) {
     }
 
     const user = results[0];
-    bcrypt.compare(password, user.password, (err, isMatch: boolean) => {
+    compare(password, user.password, (err, isMatch: boolean) => {
       if (err) {
         res.status(500).json({ message: 'Error:', err });
         return;
       }
       if (isMatch) {
-        const token = jwt.sign({ id: user.id }, 'N}98Xs)i5N5;zc', {
+        const token = sign({ id: user.id }, 'N}98Xs)i5N5;zc', {
           expiresIn: '24h',
         });
         res.status(200).json({

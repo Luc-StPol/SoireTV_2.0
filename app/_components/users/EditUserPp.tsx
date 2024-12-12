@@ -1,9 +1,16 @@
+'use client';
+
 import React, { useState } from 'react';
+
 import ImageCropper from './ImageCropper';
 
-export default function EditUserPp({OnUserPpChange}) {
+interface propsType {
+  OnUserPpChange: (croppedImage: string) => void;
+}
+
+export default function EditUserPp(props: propsType) {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [croppedImage, setCroppedImage] = useState<string | null>(null);
+  const [croppedImage, setCroppedImage] = useState<string>(String);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -16,9 +23,9 @@ export default function EditUserPp({OnUserPpChange}) {
     }
   };
 
-  const handleCropComplete = (croppedImg: string | null) => {
+  const handleCropComplete = (croppedImg: string) => {
     setCroppedImage(croppedImg);
-    OnUserPpChange(croppedImage)
+    props.OnUserPpChange(croppedImage);
   };
 
   return (
@@ -27,11 +34,12 @@ export default function EditUserPp({OnUserPpChange}) {
         <input type="file" accept="image/*" onChange={handleImageUpload} />
       ) : (
         <div>
-          <ImageCropper imageSrc={selectedImage} onCropComplete={handleCropComplete} />
+          <ImageCropper
+            imageSrc={selectedImage}
+            onCropComplete={handleCropComplete}
+          />
         </div>
       )}
     </div>
   );
-};
-
-
+}

@@ -1,5 +1,6 @@
-import db from '@/lib/db';
 import { NextApiRequest, NextApiResponse } from 'next';
+
+import db from '@/lib/db';
 
 export default async function getRating(
   req: NextApiRequest,

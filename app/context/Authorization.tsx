@@ -3,10 +3,10 @@
 import Cookies from 'js-cookie';
 import {
   createContext,
-  useContext,
-  useState,
-  useEffect,
   ReactNode,
+  useContext,
+  useEffect,
+  useState,
 } from 'react';
 
 interface AuthContextType {
@@ -31,13 +31,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const login = (token: string, userId: string) => {
     Cookies.set('token', token, { expires: 7, path: '/' });
-    Cookies.set('userId', userId, { expires: 7, path: '/userId' });
+    Cookies.set('userId', userId, { expires: 7, path: '/' });
     setIsAuthentificated(true);
   };
 
   const logout = () => {
     Cookies.remove('token', { path: '/' });
-    Cookies.remove('userId', { path: '/userId' });
+    Cookies.remove('userId', { path: '/' });
     setIsAuthentificated(false);
   };
 

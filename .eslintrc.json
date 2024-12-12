@@ -71,11 +71,5 @@
     "browser": true,
     "node": true,
     "es2021": true
-  },
-  "routes": [
-    {
-      "path": "/@route",
-      "component": "SomeComponent"
-    }
-  ]
+  }
 }

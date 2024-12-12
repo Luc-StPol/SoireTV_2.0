@@ -4,7 +4,7 @@ export default function getCroppedImg(
   imageSrc: string,
   crop: Area,
   asCanvas = false,
-  p0: string,
+  _p0: string,
 ): Promise<HTMLCanvasElement | string | null> {
   return new Promise((resolve, reject) => {
     const image = new Image();
