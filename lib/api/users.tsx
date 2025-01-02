@@ -16,7 +16,7 @@ export const getUser = async (id: string) => {
 };
 
 export const editUserInformations = async (data: UserData) => {
-  const response = await axios.post(`${API_URL}/users/user/editinformations`, {
+  const response = await axios.post(`${API_URL}/users/editinformations`, {
     userId: data.userId,
     email: data.email,
     oldPassword: data.oldPassword,
@@ -26,9 +26,12 @@ export const editUserInformations = async (data: UserData) => {
   return response.data;
 };
 
-export const editUserPp = async (file: string) => {
-  const response = await axios.post(`${API_URL}/users/user/addpp`, {
-    file: file,
+export const editUserPp = async (formData: FormData) => {
+  console.log(formData);
+  const response = await axios.post(`${API_URL}/users/addpp`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
   });
   return response.data;
 };

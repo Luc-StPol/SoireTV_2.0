@@ -3,7 +3,7 @@
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Cookies from 'js-cookie';
-import { useState } from 'react';
+import { SetStateAction, useState } from 'react';
 
 import styles from '@/app/styles/form.module.scss';
 import {
@@ -13,7 +13,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { editUserInformations } from '@/lib/api/users';
+import { editUserInformations, editUserPp } from '@/lib/api/users';
 
 import EditUserPp from './EditUserPp';
 
@@ -25,11 +25,16 @@ interface UserData {
   name?: string;
 }
 
+interface Form extends FormData {
+  file: Blob;
+  userId: string;
+}
+
 export default function EditProfil() {
-  const [userPp, setUserPp] = useState(String);
+  const [userPp, setUserPp] = useState(new Blob());
   const userId = Cookies.get('userId');
 
-  const handleUserPpChange = (newUserPp: string) => {
+  const handleUserPpChange = (newUserPp: SetStateAction<Blob>) => {
     setUserPp(newUserPp);
   };
 
@@ -72,7 +77,17 @@ export default function EditProfil() {
       }
     }
     if (userPp) {
-      console.log('userPp', userPp);
+      try {
+        console.log('userPp', userPp);
+
+        const formData = new FormData();
+        formData.append('file', userPp);
+        formData.append('userId', `${userId}`);
+        const response = await editUserPp(formData);
+        console.log(response);
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 

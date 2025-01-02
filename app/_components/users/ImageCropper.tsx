@@ -7,7 +7,7 @@ import getCroppedImg from './GetCroppedImg';
 
 interface ImageCropperProps {
   imageSrc: string;
-  onCropComplete: (croppedImage: string) => void;
+  onCropComplete: (croppedImage: Blob) => void;
 }
 
 export default function ImageCropper({
@@ -37,7 +37,7 @@ export default function ImageCropper({
             false,
             'cropped-image.jpg',
           );
-          onCropComplete(croppedFile as string); // Appelle la fonction parent avec l'image rognée
+          onCropComplete(croppedFile as Blob); // Appelle la fonction parent avec l'image rognée
           setPrevCroppedArea(croppedAreaPixels); // Mémorise la nouvelle zone
         } catch (error) {
           console.error("Erreur lors du recadrage de l'image :", error);

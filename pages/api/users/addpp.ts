@@ -6,7 +6,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 import db from '@/lib/db';
 import { deleteFile } from '@/lib/middleware/deleteFile';
-import { formidableMiddleware, config } from '@/lib/middleware/uploadFile';
+import { config, formidableMiddleware } from '@/lib/middleware/uploadFile';
 
 interface UserData extends RowDataPacket {
   id: number;
@@ -20,18 +20,20 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+    return res.status(405).json({ error: `Method not allowed` });
   }
-
+  console.log('BODY:', req);
   try {
     // Configuration de l'upload
     const uploadDir = path.join(process.cwd(), '/public/images/userspp');
 
     const { files, fields } = await formidableMiddleware(req, uploadDir);
+
     if (!files.file) {
       res.status(500).json('file not found');
       return;
     }
+
     const uploadedFile = files.file[0] as unknown as formidable.File;
     const newFilename = uploadedFile.newFilename;
     const userId = fields.userId as unknown as string;
@@ -44,13 +46,14 @@ export default async function handler(
           errno: err.errno,
         });
       }
-
       const userPp = results[0].profilPicture;
+
+      //delete previous pp from storage & db
       if (userPp) {
         try {
           const filePath = path.join(
             process.cwd(),
-            '/public/uploads/userspp/',
+            '/public/images/userspp/',
             userPp,
           );
           deleteFile(filePath);
@@ -63,7 +66,6 @@ export default async function handler(
 
       const query2 = 'UPDATE users SET profilPicture = ? WHERE id = ?';
 
-      console.log(newFilename);
       db.query(query2, [newFilename, userId], (err) => {
         if (err) {
           res.status(500).json({

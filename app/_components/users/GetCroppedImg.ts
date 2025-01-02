@@ -5,7 +5,8 @@ export default function getCroppedImg(
   crop: Area,
   asCanvas = false,
   _p0: string,
-): Promise<HTMLCanvasElement | string | null> {
+): Promise<Blob> {
+  // Retourne toujours un Blob
   return new Promise((resolve, reject) => {
     const image = new Image();
     image.src = imageSrc;
@@ -21,6 +22,7 @@ export default function getCroppedImg(
       canvas.width = crop.width;
       canvas.height = crop.height;
 
+      // Dessiner l'image recadrée sur le canvas
       ctx.drawImage(
         image,
         crop.x,
@@ -34,14 +36,22 @@ export default function getCroppedImg(
       );
 
       if (asCanvas) {
-        resolve(canvas);
-      } else {
+        // Si asCanvas est true, retourne le canvas mais converti en Blob
         canvas.toBlob((blob) => {
           if (!blob) {
             reject(new Error('Canvas is empty'));
             return;
           }
-          resolve(URL.createObjectURL(blob));
+          resolve(blob); // Retourne un Blob
+        }, 'image/jpeg');
+      } else {
+        // Si asCanvas est false, retourne directement un Blob
+        canvas.toBlob((blob) => {
+          if (!blob) {
+            reject(new Error('Canvas is empty'));
+            return;
+          }
+          resolve(blob); // Retourne un Blob
         }, 'image/jpeg');
       }
     };
