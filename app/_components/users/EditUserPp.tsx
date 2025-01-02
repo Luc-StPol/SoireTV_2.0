@@ -5,12 +5,12 @@ import React, { useState } from 'react';
 import ImageCropper from './ImageCropper';
 
 interface propsType {
-  OnUserPpChange: (croppedImage: string) => void;
+  OnUserPpChange: (croppedImage: Blob) => void;
 }
 
 export default function EditUserPp(props: propsType) {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [croppedImage, setCroppedImage] = useState<string>(String);
+  const [croppedImage, setCroppedImage] = useState<Blob>(new Blob());
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -23,7 +23,7 @@ export default function EditUserPp(props: propsType) {
     }
   };
 
-  const handleCropComplete = (croppedImg: string) => {
+  const handleCropComplete = (croppedImg: Blob) => {
     setCroppedImage(croppedImg);
     props.OnUserPpChange(croppedImage);
   };
