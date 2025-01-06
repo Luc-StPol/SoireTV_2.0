@@ -3,7 +3,6 @@
 import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Cookies from 'js-cookie';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 
@@ -26,7 +25,7 @@ interface propsType {
 }
 
 export default function UpdateMovieList(props: propsType) {
-  const [n, setN] = useState(0); // 0: Movie isnt  add / 1: Movie is already add to the list
+  const [n, setN] = useState(0); // 0: Movie isn't added / 1: Movie is already added to the list
   const session = useSession();
   const userId = session.data?.user?.id;
 
@@ -59,26 +58,23 @@ export default function UpdateMovieList(props: propsType) {
   }, []);
 
   useEffect(() => {
-    // Update favoritesmovies icon if movies is deleted from watched list
+    // Update favoritesmovies icon if movie is deleted from watched list
     if (props.movieList === 'favoritesmovies' && n === 1) {
-      console.log('n set to 0');
       setN(0);
+      console.log(`For ${props.movieList} n set to ${n}`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.updateFavorites]);
 
   useEffect(() => {
-    // Update watchedmovies button if movies is add to favorit list
+    // Update watchedmovies button if movie is added to favorite list
     if (props.movieList === 'watchedmovies' && n === 0) {
-      console.log('n set to 1');
       setN(1);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.updateWatched]);
 
   const handleClick = async () => {
-    const userId = Cookies.get('userId');
-
     if (!userId) {
       return null;
     }
@@ -111,13 +107,17 @@ export default function UpdateMovieList(props: propsType) {
 
   if (props.movieList === 'favoritesmovies' && !props.buttonMessage) {
     return (
-      <div className="flex items-center rounded-full border-2 border-solid border-black px-3 text-2xl hover:cursor-pointer md:mx-2">
+      <button
+        className="flex items-center rounded-full border-2 border-solid border-black px-3 text-2xl hover:cursor-pointer md:mx-2"
+        onClick={handleClick}
+        style={{ backgroundColor: 'white' }}
+      >
         {n === 0 ? (
-          <FontAwesomeIcon icon={faHeartRegular} onClick={handleClick} />
+          <FontAwesomeIcon icon={faHeartRegular} />
         ) : (
-          <FontAwesomeIcon icon={faHeartSolid} onClick={handleClick} />
+          <FontAwesomeIcon icon={faHeartSolid} />
         )}
-      </div>
+      </button>
     );
   }
 

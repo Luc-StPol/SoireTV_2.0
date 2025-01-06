@@ -29,6 +29,7 @@ export default async function removeFromMovieList(
       const response = await deleteMovie(data);
       if (!response) {
         res.status(500).json({ message: "Movie can't be deleted" });
+        return;
       }
     }
   }
@@ -41,6 +42,6 @@ export default async function removeFromMovieList(
       });
       return;
     }
-    res.status(200).json({ message: 'Movie deleted' });
+    return res.status(200).json({ message: 'Movie deleted' });
   });
 }

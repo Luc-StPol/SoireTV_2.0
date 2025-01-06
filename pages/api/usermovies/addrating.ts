@@ -16,6 +16,7 @@ export default async function addRating(
 
   try {
     const isMovieWatched = await getMovie(data);
+    console.log('isMovieWatched:', isMovieWatched);
     if (!isMovieWatched) {
       const response = await addMovie(data);
       if (!response) {

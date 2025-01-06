@@ -29,17 +29,21 @@ export default function MovieRating(props: propsType) {
 
   useEffect(() => {
     console.log('count = ', count);
+    console.log('rating = ', props.rating);
     const fetchRating = async () => {
-      if (count < 2) {
+      if (count < 1) {
         setCount(count + 1);
       } else {
-        const movieId = props.movieId;
-        const rating = props.rating;
-        if (!userId) {
-          return;
+        if (props.rating > 0) {
+          const movieId = props.movieId;
+          const rating = props.rating;
+          if (!userId) {
+            return;
+          }
+          const data: MovieList = { userId, movieId, rating };
+          console.log('new rating =', data.rating);
+          await addRating(data);
         }
-        const data: MovieList = { userId, movieId, rating };
-        await addRating(data);
       }
     };
     fetchRating();

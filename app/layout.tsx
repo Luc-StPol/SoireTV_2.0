@@ -23,12 +23,15 @@ const geistMono = localFont({
 });
 
 export default function RootLayout({ children }: LayoutType) {
+  // Use useSession to get session data
   const { data: session } = useSession();
 
   return (
     <div className={`${RobotoMono.variable} ${geistMono.variable} antialiased`}>
       <Provider>
+        {/* Show Header if session exists */}
         {session && <Header />}
+        {/* Show LayerLeft if session exists, otherwise show children directly */}
         {session ? <LayerLeft>{children}</LayerLeft> : children}
       </Provider>
     </div>

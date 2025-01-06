@@ -30,6 +30,7 @@ export default async function addToMovieList(
       const response = await addMovie(data);
       if (!response) {
         res.status(500).json({ message: "Movie can't be added" });
+        return;
       }
     }
   }
@@ -47,6 +48,6 @@ export default async function addToMovieList(
       });
       return;
     }
-    res.status(201).json({ message: 'movie Added to the list' });
+    return res.status(201).json({ message: 'movie Added to the list' });
   });
 }
