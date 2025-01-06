@@ -51,6 +51,7 @@ export default function login(req: NextApiRequest, res: NextApiResponse) {
         res.status(200).json({
           id: user.id,
           email: user.email,
+          image: user.profilPicture,
           token,
         });
       } else {

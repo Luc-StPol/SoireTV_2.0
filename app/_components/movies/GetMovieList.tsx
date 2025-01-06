@@ -3,19 +3,26 @@
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useSession } from 'next-auth/react';
+// eslint-disable-next-line import/order
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
-import { getMovieList } from '@/lib/api/usersMovieList';
+import { getMoviesFromList } from '@/lib/api/moviesDB';
 
-import GetMovie from './GetMovie';
+import MovieCard from './MovieCard';
 
 interface MovieList {
   map(arg0: (movie: Movie) => JSX.Element): import('react').ReactNode;
   moviesList: string[];
+  genres: string[];
+  popularity: number;
 }
 
 interface Movie {
   movieId: string;
+  id: string;
+  title: string;
+  poster_path: string;
 }
 
 export default function GetMovieList(props: { typeList: string }) {
@@ -30,8 +37,8 @@ export default function GetMovieList(props: { typeList: string }) {
         return;
       }
       const data = { userId, typeList };
-      const response = await getMovieList(data);
-      setMovies(response.results);
+      const response = await getMoviesFromList(data);
+      setMovies(response.movies);
     };
     fetchMovies();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -48,8 +55,10 @@ export default function GetMovieList(props: { typeList: string }) {
   return (
     <div className="flex items-center max-md:flex-col md:m-11 md:flex-wrap md:items-start">
       {movies.map((movie) => (
-        <div key={movie.movieId}>
-          <GetMovie movie={movie} />
+        <div key={movie.movieId} className="mx-2">
+          <Link href={`/moviePage/${movie.id}`}>
+            <MovieCard movie={movie} />
+          </Link>
         </div>
       ))}
     </div>

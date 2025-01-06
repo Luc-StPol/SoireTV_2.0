@@ -22,6 +22,8 @@ interface propsType {
   movieList: string;
   movieId: string;
   buttonMessage?: string[];
+  movieTitle?: string;
+  moviePoster?: string;
 }
 
 export default function UpdateMovieList(props: propsType) {
@@ -82,8 +84,11 @@ export default function UpdateMovieList(props: propsType) {
       userId: userId,
       movieId: props.movieId,
       typeList: props.movieList,
+      movieTitle: props.movieTitle,
+      moviePoster: props.moviePoster,
     };
     if (n === 0) {
+      console.log(props.movieTitle);
       const response = await addMovie(data);
       if (response) {
         setN(1); // Add movie

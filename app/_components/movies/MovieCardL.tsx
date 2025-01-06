@@ -88,6 +88,8 @@ export default function MovieCardL(props: {
                 movieList="watchlist"
                 buttonMessage={['+ film à voir', '- films à voir']}
                 movieId={movie.id}
+                movieTitle={movie.title}
+                moviePoster={movie.poster_path}
               />
               <UpdateMovieList
                 movieList="watchedmovies"
@@ -97,6 +99,8 @@ export default function MovieCardL(props: {
                 setUpdateFavorites={handleUpdateFavorites}
                 updateFavorites={updateFavorites}
                 updateWatched={updateWatched}
+                movieTitle={movie.title}
+                moviePoster={movie.poster_path}
               />
               <UpdateMovieList
                 movieList="favoritesmovies"
@@ -104,6 +108,8 @@ export default function MovieCardL(props: {
                 updateFavorites={updateFavorites}
                 setUpdateWatched={handleUpdateWatched}
                 updateWatched={updateWatched}
+                movieTitle={movie.title}
+                moviePoster={movie.poster_path}
               />
             </div>
             <div className="mx-3 mt-4">

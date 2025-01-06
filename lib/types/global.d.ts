@@ -2,11 +2,11 @@ declare global {
   interface MovieType {
     id: string;
     title: string;
-    poster_path: string;
-    release_date: string;
-    overview: string;
-    genres: [GenreType];
-    popularity: string;
+    poster_path?: string;
+    release_date?: string;
+    overview?: string;
+    genres?: [GenreType];
+    popularity?: string;
   }
   interface GenreType {
     id: string;
@@ -30,4 +30,5 @@ declare global {
   }
 }
 
-export {};
+// eslint-disable-next-line prettier/prettier
+export { };

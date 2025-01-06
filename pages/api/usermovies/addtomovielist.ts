@@ -7,6 +7,8 @@ interface movieList {
   userId: string;
   movieId: string;
   typeList: string;
+  movieTitle?: string;
+  moviePoster?: string;
 }
 
 export default async function addToMovieList(
@@ -17,7 +19,25 @@ export default async function addToMovieList(
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { userId, movieId, typeList }: movieList = req.body;
+  const { userId, movieId, typeList, movieTitle, moviePoster }: movieList =
+    req.body;
+
+  console.log(movieTitle);
+  // Check if the movie exists in the "movies" table, if not, insert it
+  const movieQuery = `INSERT INTO movies (id, title, poster_path) 
+  SELECT ?, ?, ? 
+  WHERE NOT EXISTS (
+    SELECT 1 FROM movies WHERE id = ?
+  )`;
+  db.query(movieQuery, [movieId, movieTitle, moviePoster, movieId], (err) => {
+    if (err) {
+      res.status(500).json({
+        error: err.message,
+        errno: err.errno,
+      });
+      return;
+    }
+  });
 
   if (typeList === 'favoritesmovies') {
     const data = {
@@ -48,6 +68,6 @@ export default async function addToMovieList(
       });
       return;
     }
-    return res.status(201).json({ message: 'movie Added to the list' });
+    return res.status(201).json({ message: 'Movie added to the list' });
   });
 }

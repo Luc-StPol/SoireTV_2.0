@@ -7,6 +7,8 @@ interface MovieList {
   movieId?: string;
   typeList?: string;
   rating?: number;
+  movieTitle?: string;
+  moviePoster?: string;
 }
 
 export const addMovie = async (data: MovieList) => {
@@ -14,6 +16,8 @@ export const addMovie = async (data: MovieList) => {
     userId: data.userId,
     movieId: data.movieId,
     typeList: data.typeList,
+    movieTitle: data.movieTitle,
+    moviePoster: data.moviePoster,
   });
   return response.data;
 };

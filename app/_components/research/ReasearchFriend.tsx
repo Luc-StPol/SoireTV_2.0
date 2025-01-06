@@ -1,5 +1,10 @@
 import ResearchBar from './ResearchBar';
 
 export default function ResearchFriend() {
-  return <ResearchBar placeholder="Rechercher un ami" link="/" />;
+  return (
+    <ResearchBar
+      placeholder="Rechercher un ami"
+      link="/users/friendsResearchList"
+    />
+  );
 }

@@ -2,17 +2,19 @@
 
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import styles from '@/app/styles/component.module.scss';
-import ppDefault from '@/public/images/ppDefault.png';
 import logo from '@/public/images/SoireeTV_Icone-removebg-transformed.png';
 
 import ResearchFriend from '../research/ReasearchFriend';
 import ResearchMovie from '../research/ReasearchMovie';
 
 export default function Header() {
+  const { data: session } = useSession();
+
   return (
     <div>
       <header
@@ -41,8 +43,14 @@ export default function Header() {
           </div>
         </div>
         <nav className="flex items-center max-md:hidden">
-          <Link href="/profil">
-            <Image src={ppDefault} alt="photo de profil" width={110} />
+          <Link href="/profil" className="w-20">
+            <Image
+              src={`/images/userspp/${session?.user?.image}`}
+              alt="photo de profil"
+              width={110}
+              height={110}
+              className="overflow-hidden rounded-full"
+            />
           </Link>
         </nav>
       </header>

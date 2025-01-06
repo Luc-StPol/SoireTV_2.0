@@ -11,36 +11,31 @@ import UserBestMovies from './UserBestMovies';
 
 export default function UserProfil() {
   const [userProfil, setUserProfil] = useState<UserType>();
-  // Use useSession to get session data
-  const session = useSession();
-  const userId = session.data?.user?.id;
+  const { data: session } = useSession();
+  const userId = session?.user?.id;
   console.log('session:', session);
 
   useEffect(() => {
     const fetchUserProfil = async () => {
-      // Check if session is loaded
       if (!session) {
         return null;
       }
 
-      // Check if user ID is available
       if (!userId) {
         return null;
       }
 
-      // Fetch user information
       const response = await getUser(userId);
       setUserProfil(response.results[0]);
     };
     fetchUserProfil();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [session, userId]);
 
-  // Show loading message if user data is not yet available
   if (!userProfil || !userId) {
     return (
       <div>
-        <p>Loading...</p>
+        <p>Chargement...</p>
       </div>
     );
   }
@@ -52,7 +47,7 @@ export default function UserProfil() {
           <EditProfil />
           <Image
             src={`/images/userspp/${userProfil.profilPicture}`}
-            alt="profile picture"
+            alt="photo de profil"
             width={270}
             height={270}
             className="overflow-hidden rounded-full"
