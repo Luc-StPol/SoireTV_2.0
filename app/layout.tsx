@@ -1,3 +1,4 @@
+import { useSession } from 'next-auth/react';
 import { Roboto_Mono } from 'next/font/google';
 import localFont from 'next/font/local';
 import { ReactNode } from 'react';
@@ -22,11 +23,13 @@ const geistMono = localFont({
 });
 
 export default function RootLayout({ children }: LayoutType) {
+  const { data: session } = useSession();
+
   return (
     <div className={`${RobotoMono.variable} ${geistMono.variable} antialiased`}>
       <Provider>
-        <Header />
-        <LayerLeft>{children}</LayerLeft>
+        {session && <Header />}
+        {session ? <LayerLeft>{children}</LayerLeft> : children}
       </Provider>
     </div>
   );

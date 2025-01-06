@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { useAuth } from '@/app/context/Authorization';
 import styles from '@/app/styles/component.module.scss';
 import ppDefault from '@/public/images/ppDefault.png';
 import logo from '@/public/images/SoireeTV_Icone-removebg-transformed.png';
@@ -14,11 +13,6 @@ import ResearchFriend from '../research/ReasearchFriend';
 import ResearchMovie from '../research/ReasearchMovie';
 
 export default function Header() {
-  const { isAuthentificated } = useAuth();
-
-  if (!isAuthentificated) {
-    return null;
-  }
   return (
     <div>
       <header

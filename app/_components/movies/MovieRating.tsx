@@ -3,7 +3,7 @@
 import { faStar as regularStar } from '@fortawesome/free-regular-svg-icons';
 import { faStar as solidStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Cookies from 'js-cookie';
+import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 
 import { addRating } from '@/lib/api/usersMovieList';
@@ -23,7 +23,8 @@ interface MovieList {
 }
 
 export default function MovieRating(props: propsType) {
-  const userId = Cookies.get('userId');
+  const session = useSession();
+  const userId = session.data?.user?.id;
   const [count, setCount] = useState(0);
 
   useEffect(() => {

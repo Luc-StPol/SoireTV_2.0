@@ -2,7 +2,7 @@
 
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Cookies from 'js-cookie';
+import { useSession } from 'next-auth/react';
 import { SetStateAction, useState } from 'react';
 
 import styles from '@/app/styles/form.module.scss';
@@ -32,7 +32,8 @@ interface Form extends FormData {
 
 export default function EditProfil() {
   const [userPp, setUserPp] = useState(new Blob());
-  const userId = Cookies.get('userId');
+  const session = useSession();
+  const userId = session.data?.user?.id;
 
   const handleUserPpChange = (newUserPp: SetStateAction<Blob>) => {
     setUserPp(newUserPp);

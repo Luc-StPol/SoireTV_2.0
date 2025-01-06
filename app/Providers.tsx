@@ -1,8 +1,8 @@
 'use client';
 
+import { SessionProvider } from 'next-auth/react';
 import { ReactNode } from 'react';
 
-import { AuthProvider } from './context/Authorization';
 import { ResearchDataProvider } from './context/ResearchData';
 
 type ProviderProps = {
@@ -11,8 +11,8 @@ type ProviderProps = {
 
 export default function Provider({ children }: ProviderProps) {
   return (
-    <AuthProvider>
+    <SessionProvider>
       <ResearchDataProvider>{children}</ResearchDataProvider>
-    </AuthProvider>
+    </SessionProvider>
   );
 }

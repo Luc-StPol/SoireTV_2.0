@@ -1,6 +1,6 @@
 'use client';
 
-import Cookies from 'js-cookie';
+import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
@@ -11,9 +11,16 @@ import UserBestMovies from './UserBestMovies';
 
 export default function UserProfil() {
   const [userProfil, setUserProfil] = useState<UserType>();
-  const userId = Cookies.get('userId');
+  const session = useSession();
+  const userId = session.data?.user?.id;
+  console.log('session:', session);
+
   useEffect(() => {
     const fetchUserProfil = async () => {
+      if (!session) {
+        return null;
+      }
+
       if (!userId) {
         return null;
       }

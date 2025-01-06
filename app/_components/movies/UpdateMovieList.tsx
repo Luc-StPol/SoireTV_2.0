@@ -4,6 +4,7 @@ import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Cookies from 'js-cookie';
+import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 
 import {
@@ -26,11 +27,11 @@ interface propsType {
 
 export default function UpdateMovieList(props: propsType) {
   const [n, setN] = useState(0); // 0: Movie isnt  add / 1: Movie is already add to the list
+  const session = useSession();
+  const userId = session.data?.user?.id;
 
   useEffect(() => {
     const isMovieExist = async () => {
-      const userId = Cookies.get('userId');
-
       if (!userId) {
         return null;
       }

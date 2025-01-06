@@ -2,7 +2,7 @@
 
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Cookies from 'js-cookie';
+import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 
 import { getMovieList } from '@/lib/api/usersMovieList';
@@ -19,7 +19,8 @@ interface Movie {
 }
 
 export default function GetMovieList(props: { typeList: string }) {
-  const userId = Cookies.get('userId');
+  const session = useSession();
+  const userId = session.data?.user?.id;
   const typeList = props.typeList;
   const [movies, setMovies] = useState<MovieList>();
 

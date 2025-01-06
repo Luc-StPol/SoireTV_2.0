@@ -1,5 +1,6 @@
 'use client';
 
+import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 import {
   AwaitedReactNode,
@@ -11,10 +12,7 @@ import {
   useState,
 } from 'react';
 
-import { useAuth } from '@/app/context/Authorization';
 import styles from '@/app/styles/component.module.scss';
-
-import Logout from '../authentification/Logout';
 
 export default function LayerLeft(props: {
   children:
@@ -29,8 +27,6 @@ export default function LayerLeft(props: {
     | null
     | undefined;
 }) {
-  const { isAuthentificated } = useAuth();
-
   const [isSmallScreen, setIsSmallScreen] = useState(false);
 
   useEffect(() => {
@@ -44,10 +40,6 @@ export default function LayerLeft(props: {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  if (!isAuthentificated) {
-    return <div>{props.children}</div>;
-  }
-
   return (
     <div>
       {isSmallScreen ? (
@@ -58,7 +50,7 @@ export default function LayerLeft(props: {
             className={`h-[calc(100vh-105px)] w-8 border-e-8 border-primary ${styles.leftHeader}`}
           >
             <div className="absolute bottom-4 left-10">
-              <Logout />
+              <button onClick={() => signOut()}>Logout</button>
             </div>
           </div>
           <div>
