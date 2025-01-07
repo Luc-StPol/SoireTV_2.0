@@ -1,10 +1,19 @@
+import { getServerSession } from 'next-auth/next';
 import { NextApiRequest, NextApiResponse } from 'next/types';
 
 import db from '@/lib/db';
 
-export default function user(req: NextApiRequest, res: NextApiResponse) {
+import { authOptions } from '../../auth/[...nextauth]';
+
+export default async function user(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  const session = await getServerSession(req, res, authOptions);
+  if (!session) {
+    res.status(401).json({ error: 'Unauthorized' });
+    return;
   }
 
   const { id } = req.query;

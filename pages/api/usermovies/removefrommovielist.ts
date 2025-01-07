@@ -1,7 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { getServerSession } from 'next-auth';
 
 import { deleteMovie, getMovie } from '@/lib/api/usersMovieList';
 import db from '@/lib/db';
+
+import { authOptions } from '../auth/[...nextauth]';
 
 interface movieList {
   userId: string;
@@ -16,6 +19,13 @@ export default async function removeFromMovieList(
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
+
+  const session = await getServerSession(req, res, authOptions);
+  if (!session) {
+    res.status(401).json({ error: 'Unauthorized' });
+    return;
+  }
+
   const { userId, movieId, typeList }: movieList = req.body;
 
   if (typeList === 'watchedmovies') {

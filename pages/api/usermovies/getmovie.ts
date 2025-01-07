@@ -13,10 +13,14 @@ interface movieData extends RowDataPacket {
   movieId?: string;
 }
 
-export default function getMovie(req: NextApiRequest, res: NextApiResponse) {
+export default async function getMovie(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
+
   const { userId, movieId, typeList }: movieList = req.body;
   const query = `SELECT movieId FROM ${typeList} WHERE userId = ? AND movieID = ?`;
   db.query(query, [userId, movieId], (err, results: movieData[]) => {

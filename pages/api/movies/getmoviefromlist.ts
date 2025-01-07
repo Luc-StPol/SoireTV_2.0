@@ -14,6 +14,7 @@ export default async function getMoviesFromList(
   const data = req.body;
 
   const response = await getMovieList(data);
+  console.log('response:', response);
   const results = response.results;
 
   if (!Array.isArray(results) || results.length === 0) {

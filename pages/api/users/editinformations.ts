@@ -1,9 +1,12 @@
 import { compare, hash } from 'bcryptjs';
 import { RowDataPacket } from 'mysql2';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { getServerSession } from 'next-auth';
 
 import asyncDb from '@/lib/asyncDb';
 import db from '@/lib/db';
+
+import { authOptions } from '../auth/[...nextauth]';
 
 interface UserData extends RowDataPacket {
   id: number;
@@ -26,6 +29,11 @@ export default async function editInformation(
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
+  const session = await getServerSession(req, res, authOptions);
+  if (!session) {
+    res.status(401).json({ error: 'Unauthorized' });
+    return;
+  }
   try {
     const {
       userId,
@@ -35,11 +43,10 @@ export default async function editInformation(
       newPassword: plainPassword,
     }: User = req.body;
 
-    console.log(userId);
     const queryParts: string[] = [];
     const queryParams: string[] = [];
 
-    if (email) {
+    if (email && email !== '') {
       //Email test
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       const validateEmail = (email: string): boolean => emailRegex.test(email);
@@ -51,7 +58,7 @@ export default async function editInformation(
       }
     }
 
-    if (oldPassword && plainPassword) {
+    if (oldPassword && oldPassword != '' && plainPassword) {
       const password = await hash(plainPassword, 10);
 
       const passwordRegex =
@@ -65,8 +72,6 @@ export default async function editInformation(
       const matchPassword = async () => {
         const query = 'SELECT * FROM users WHERE id = ?';
         const [results] = await asyncDb.query<UserData[]>(query, [userId]);
-
-        console.log('results:', results);
 
         const user: UserData = results[0];
 
@@ -102,7 +107,6 @@ export default async function editInformation(
         });
         return;
       } else {
-        console.log('query is:', queryParts, queryParams);
         res.status(200).json({
           message: 'user update !',
           results,

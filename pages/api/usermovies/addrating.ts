@@ -10,6 +10,7 @@ export default async function addRating(
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
+
   const { userId, movieId, rating } = req.body;
   const typeList = 'watchedmovies';
   const data = { userId, movieId, typeList };

@@ -25,11 +25,6 @@ interface UserData {
   name?: string;
 }
 
-interface Form extends FormData {
-  file: Blob;
-  userId: string;
-}
-
 export default function EditProfil() {
   const [userPp, setUserPp] = useState(new Blob());
   const session = useSession();
@@ -63,32 +58,35 @@ export default function EditProfil() {
         userId: userId,
       });
     }
-    if (
-      userData.name !== '' ||
-      userData.email !== '' ||
-      userData.oldPassword !== '' ||
-      userData.newPassword !== ''
-    ) {
+
+    // Create body object with non-empty fields
+    const body: UserData = {
+      userId: userId || '',
+    };
+    if (userData.name !== '') body.name = userData.name;
+    if (userData.email !== '') body.email = userData.email;
+    if (userData.oldPassword !== '') body.oldPassword = userData.oldPassword;
+    if (userData.newPassword !== '') body.newPassword = userData.newPassword;
+
+    if (Object.keys(body).length > 0) {
       try {
-        console.log(userData);
-        const response = await editUserInformations(userData);
-        console.log(response);
+        await editUserInformations(body);
       } catch (err) {
         console.log(err);
       }
     }
-    if (userPp) {
-      try {
-        console.log('userPp', userPp);
 
+    if (userPp && userPp.type.startsWith('image/')) {
+      try {
         const formData = new FormData();
         formData.append('file', userPp);
         formData.append('userId', `${userId}`);
-        const response = await editUserPp(formData);
-        console.log(response);
+        await editUserPp(formData);
       } catch (err) {
         console.log(err);
       }
+    } else {
+      console.log('userPp does not contain an image');
     }
   };
 

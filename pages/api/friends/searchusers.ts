@@ -1,6 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { getServerSession } from 'next-auth/next';
 
 import db from '@/lib/db';
+
+import { authOptions } from '../auth/[...nextauth]';
 
 export default async function searchUsers(
   req: NextApiRequest,
@@ -9,7 +12,11 @@ export default async function searchUsers(
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
-
+  const session = await getServerSession(req, res, authOptions);
+  if (!session) {
+    res.status(401).json({ error: 'Unauthorized' });
+    return;
+  }
   const { userName } = req.query;
 
   if (!userName) {

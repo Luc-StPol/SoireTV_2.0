@@ -3,10 +3,13 @@ import path from 'path';
 import formidable from 'formidable';
 import { RowDataPacket } from 'mysql2';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { getServerSession } from 'next-auth';
 
 import db from '@/lib/db';
 import { deleteFile } from '@/lib/middleware/deleteFile';
 import { config, formidableMiddleware } from '@/lib/middleware/uploadFile';
+
+import { authOptions } from '../auth/[...nextauth]';
 
 interface UserData extends RowDataPacket {
   id: number;
@@ -22,7 +25,12 @@ export default async function handler(
   if (req.method !== 'POST') {
     return res.status(405).json({ error: `Method not allowed` });
   }
-  console.log('BODY:', req);
+
+  const session = await getServerSession(req, res, authOptions);
+  if (!session) {
+    res.status(401).json({ error: 'Unauthorized' });
+    return;
+  }
   try {
     // Configuration de l'upload
     const uploadDir = path.join(process.cwd(), '/public/images/userspp');
@@ -87,3 +95,4 @@ export default async function handler(
     res.status(500).json({ error: 'Something went wrong during the upload.' });
   }
 }
+// Removed the conflicting local function definition
