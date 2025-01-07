@@ -17,7 +17,7 @@ export default async function getMoviesFromList(
   const results = response.results;
 
   if (!Array.isArray(results) || results.length === 0) {
-    return res.status(400).json({ error: 'No movies found' });
+    return res.status(204).json({ message: 'No movie added yet' });
   }
 
   // Extract movieIds from response

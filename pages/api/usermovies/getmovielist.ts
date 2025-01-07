@@ -22,7 +22,7 @@ export default function getMovieList(
         return;
       }
       if (!results) {
-        res.status(404).json('Movies not found');
+        res.status(204).json('No movies added yet');
         return;
       }
       res.status(200).json({ results });

@@ -16,13 +16,15 @@ export default function MovieCardL(props: {
   const movieCast = props.movieCast;
   const moviePoster =
     `https://image.tmdb.org/t/p/original/` + movie.poster_path;
-  const movieReleaseDateUs = new Date(movie.release_date);
+  const movieReleaseDateUs = movie.release_date
+    ? new Date(movie.release_date)
+    : new Date();
   const movieReleaseDateFr = Intl.DateTimeFormat('fr-FR', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
   }).format(movieReleaseDateUs);
-  const movieRate = parseInt(movie.popularity) / 10;
+  const movieRate = movie.popularity ? parseInt(movie.popularity) / 10 : 0;
 
   const [rating, setRating] = useState(Number);
   const [updateFavorites, setUpdateFavorites] = useState(Boolean);
@@ -56,12 +58,13 @@ export default function MovieCardL(props: {
         <div className={`${styles.cardL_Content}`}>
           <p>
             Genre :&nbsp;
-            {movie.genres.map((genre, i: number) => (
-              <>
-                {i > 0 ? ', ' : null}
-                {genre.name}
-              </>
-            ))}
+            {movie.genres &&
+              movie.genres.map((genre, i: number) => (
+                <>
+                  {i > 0 ? ', ' : null}
+                  {genre.name}
+                </>
+              ))}
           </p>
           <p>
             Réalisé par&nbsp;

@@ -1,3 +1,4 @@
+import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -7,7 +8,10 @@ import { searchUsers } from '@/lib/api/friends';
 
 export default function FriendsResearch() {
   const { researchName } = useResearchData();
-  const [usersList, setUsersList] = useState();
+  const [usersList, setUsersList] = useState<
+    { id: string; profilPicture: string; name: string }[]
+  >([]);
+  const { data: session } = useSession();
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -17,7 +21,6 @@ export default function FriendsResearch() {
         }
         const response = await searchUsers(researchName);
         setUsersList(response.users);
-        console.log(response);
       } catch (err) {
         console.log('Error fetching movies:', err);
       }
@@ -30,7 +33,13 @@ export default function FriendsResearch() {
       {usersList &&
         usersList.map((user) => (
           <div key={user.id}>
-            <Link href={`/user/${user.id}`}>
+            <Link
+              href={
+                user.id === session?.user?.id
+                  ? '/profil'
+                  : `/user/profil/${user.id}`
+              }
+            >
               <div className="flex items-center">
                 <Image
                   src={`/images/userspp/${user.profilPicture}`}

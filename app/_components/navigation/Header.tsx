@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect } from 'react';
 
 import styles from '@/app/styles/component.module.scss';
 import logo from '@/public/images/SoireeTV_Icone-removebg-transformed.png';
@@ -13,7 +14,15 @@ import ResearchFriend from '../research/ReasearchFriend';
 import ResearchMovie from '../research/ReasearchMovie';
 
 export default function Header() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+
+  useEffect(() => {
+    console.log('session', session, 'status', status);
+  }, [session, status]);
+
+  if (status === 'loading') {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>

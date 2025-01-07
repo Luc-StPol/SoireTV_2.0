@@ -1,15 +1,13 @@
 'use client';
 
 // eslint-disable-next-line import/order
-import { getSession, signIn } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import styles from '@/app/styles/form.module.scss';
 
 export default function LoginComp() {
-  const router = useRouter();
   const [userData, setUserData] = useState({
     userEmail: '',
     userPassword: '',
@@ -26,17 +24,10 @@ export default function LoginComp() {
     e.preventDefault();
     try {
       const result = await signIn('credentials', {
-        redirect: false,
+        callbackUrl: '/',
         userEmail: userData.userEmail,
         userPassword: userData.userPassword,
       });
-      if (result?.ok) {
-        // Récupérer la valeur de l'ID de l'utilisateur
-        const session = await getSession();
-        if (session) {
-          router.push('/');
-        }
-      }
     } catch (err) {
       console.log('erreur de connexion', err);
     }

@@ -7,6 +7,7 @@ import { getBestMovies } from '@/lib/api/usersMovieList';
 import GetMovie from '../movies/GetMovie';
 
 interface MovieList {
+  length: number;
   map(arg0: (movie: Movie) => JSX.Element): import('react').ReactNode;
   moviesList: string[];
 }
@@ -30,10 +31,16 @@ export default function UserBestMovies(props: { userId: string }) {
   if (!movieList) {
     return <div>Chargement ...</div>;
   }
+
   return (
     <div className="mt-12">
-      <h4>Vos films favoris</h4>
+      <h4>Films favoris</h4>
       <div className="md:flex">
+        {movieList.length === 0 && (
+          <div>
+            <p>Aucun film en favoris pour l&apos;instant</p>
+          </div>
+        )}
         {movieList.map((movie: Movie) => (
           <div key={movie.movieId}>
             <GetMovie movie={movie} />

@@ -8,3 +8,8 @@ export const searchUsers = async (userName: string) => {
   );
   return response.data;
 };
+
+export const getFriend = async (id: string) => {
+  const response = await axios.get(`${API_URL}/users/friend/${id}`);
+  return response.data;
+};

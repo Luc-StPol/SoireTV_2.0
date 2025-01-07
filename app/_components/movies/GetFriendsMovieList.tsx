@@ -1,6 +1,6 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
 // eslint-disable-next-line import/order
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -23,9 +23,12 @@ interface Movie {
   poster_path: string;
 }
 
-export default function GetMovieList(props: { typeList: string }) {
-  const session = useSession();
-  const userId = session.data?.user?.id;
+export default function GetFriendsMovieList(props: { typeList: string }) {
+  const router = useRouter();
+  const userId = Array.isArray(router.query.id)
+    ? router.query.id[0]
+    : router.query.id;
+
   const typeList = props.typeList;
   const [movies, setMovies] = useState<MovieList>();
 
@@ -45,7 +48,7 @@ export default function GetMovieList(props: { typeList: string }) {
   if (!movies) {
     return (
       <div className="m-24 mt-48 text-center text-lg">
-        Vous n&apos;avez encore rien ajouté à cette liste !
+        Aucun film ici pour le moment !
       </div>
     );
   }
