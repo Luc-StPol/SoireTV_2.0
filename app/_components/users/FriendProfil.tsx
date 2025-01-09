@@ -8,6 +8,8 @@ import { useEffect, useState } from 'react';
 
 import { getFriend } from '@/lib/api/friends';
 
+import FollowUser from './FollowUser';
+import FriendRequest from './FriendRequest';
 import UserBestMovies from './UserBestMovies';
 
 export default function FriendProfil() {
@@ -60,6 +62,8 @@ export default function FriendProfil() {
           <Link href={`/users/watchlist/${id}`}>
             <p className="mt-3">Watchlist</p>
           </Link>
+          <FollowUser id={id || ''} />
+          <FriendRequest id={id || ''} />
         </div>
       </div>
       <div>

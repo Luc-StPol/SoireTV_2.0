@@ -52,6 +52,7 @@ export default function login(req: NextApiRequest, res: NextApiResponse) {
           id: user.id,
           email: user.email,
           image: user.profilPicture,
+          name: user.name,
           token,
         });
       } else {

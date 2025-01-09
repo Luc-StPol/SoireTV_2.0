@@ -53,6 +53,7 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.id = user.id;
         token.profilPicture = user.image; // Ajouter l'image de l'utilisateur au token
+        token.name = user.name;
       }
       return token;
     },
@@ -60,6 +61,7 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         session.user.id = token.id as string;
         session.user.image = token.profilPicture as string | null | undefined; // Ajouter l'image de l'utilisateur à la session
+        session.user.name = token.name as string | null | undefined;
       }
       return session;
     },
