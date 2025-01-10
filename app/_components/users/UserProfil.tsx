@@ -7,7 +7,6 @@ import { useEffect, useState } from 'react';
 import { getUser } from '@/lib/api/users';
 
 import EditProfil from './EditProfil';
-import FriendRequestNotification from './FriendRequestNotification';
 import UserBestMovies from './UserBestMovies';
 
 export default function UserProfil() {
@@ -57,9 +56,6 @@ export default function UserProfil() {
       </div>
       <div>
         <UserBestMovies userId={userId} />
-      </div>
-      <div>
-        <FriendRequestNotification userId={userId} />
       </div>
     </div>
   );

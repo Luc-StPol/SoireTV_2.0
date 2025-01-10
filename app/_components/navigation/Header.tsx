@@ -9,6 +9,7 @@ import Link from 'next/link';
 import styles from '@/app/styles/component.module.scss';
 import logo from '@/public/images/SoireeTV_Icone-removebg-transformed.png';
 
+import FriendRequestNotification from '../notifications/FriendRequestNotification';
 import ResearchFriend from '../research/ReasearchFriend';
 import ResearchMovie from '../research/ReasearchMovie';
 
@@ -47,6 +48,11 @@ export default function Header() {
           </div>
         </div>
         <nav className="flex items-center max-md:hidden">
+          <div>
+            {session?.user.id && (
+              <FriendRequestNotification userId={session.user.id} />
+            )}
+          </div>
           <Link href="/profil" className="w-20">
             <Image
               src={`/images/userspp/${session?.user?.image}`}
