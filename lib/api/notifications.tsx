@@ -28,14 +28,17 @@ export const updateNotificationStatus = async (id: string) => {
   return response.data;
 };
 
-export const deleteNotification = async (id: string, type: string) => {
-  console.log('id=', id);
-  console.log('type=', type);
+export const deleteNotification = async (
+  id?: string,
+  type?: string,
+  notificationId?: string,
+) => {
   const response = await axios.post(
     `${API_URL}/notifications/deletenotification`,
     {
       id: id,
       type: type,
+      notificationId: notificationId,
     },
   );
 

@@ -55,3 +55,10 @@ export const getPendingFriendList = async () => {
   const response = await axios.get(`${API_URL}/users/pendingfriendlist`);
   return response.data;
 };
+
+export const acceptFriendRequest = async (id: string) => {
+  const response = await axios.get(
+    `${API_URL}/friends/acceptfriendrequest/${id}`,
+  );
+  return response.data;
+};

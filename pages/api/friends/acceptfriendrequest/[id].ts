@@ -3,13 +3,13 @@ import { getServerSession } from 'next-auth/next';
 
 import db from '@/lib/db';
 
-import { authOptions } from '../auth/[...nextauth]';
+import { authOptions } from '../../auth/[...nextauth]';
 
-export default async function deleteNotification(
+export default async function acceptfriendrequest(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  if (req.method !== 'POST') {
+  if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
   const session = await getServerSession(req, res, authOptions);
@@ -17,13 +17,10 @@ export default async function deleteNotification(
     res.status(401).json({ error: 'Unauthorized' });
     return;
   }
-
-  const { id, type, notificationId } = req.body;
-
-  console.log('reqBody=', req.body);
-  const query = `DELETE FROM notifications WHERE ( userId = ? AND type = ? AND sendById = ?) OR id = ?`;
-  console.log(query);
-  db.query(query, [id, type, session.user.id, notificationId], (err) => {
+  const { id } = req.query;
+  const query =
+    'UPDATE friendslist SET status = "friend" WHERE userId = ? AND friendId = ?';
+  db.query(query, [id, session.user.id], (err, results) => {
     if (err) {
       console.log(err);
       res.status(500).json({
@@ -32,6 +29,8 @@ export default async function deleteNotification(
       });
       return;
     }
-    res.status(200).json({ message: 'Notification deleted' });
+    res.status(200).json({
+      results,
+    });
   });
 }
