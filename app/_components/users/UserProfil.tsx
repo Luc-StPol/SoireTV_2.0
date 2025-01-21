@@ -1,6 +1,7 @@
 'use client';
 
 import { useSession } from 'next-auth/react';
+// eslint-disable-next-line import/order
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 

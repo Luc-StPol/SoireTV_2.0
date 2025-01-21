@@ -1,4 +1,5 @@
 import { getServerSession } from 'next-auth/next';
+// eslint-disable-next-line import/order
 import { NextApiRequest, NextApiResponse } from 'next/types';
 
 import db from '@/lib/db';

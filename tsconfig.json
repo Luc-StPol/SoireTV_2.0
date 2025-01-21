@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     "app/lib/types/global.d.ts",
     "app/layout.tsx"
-, "server.js"  ],
+  ],
   "exclude": ["node_modules"]
 }
