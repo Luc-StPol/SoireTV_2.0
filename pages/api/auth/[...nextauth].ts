@@ -36,7 +36,7 @@ export const authOptions: NextAuthOptions = {
         if (user) {
           return user;
         } else {
-          return null;
+          throw new Error('Email out mot de passe incorrecte');
         }
       },
     }),

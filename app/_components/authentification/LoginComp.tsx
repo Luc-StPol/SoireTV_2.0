@@ -12,6 +12,7 @@ export default function LoginComp() {
     userEmail: '',
     userPassword: '',
   });
+  const [error, setError] = useState<undefined | string>();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserData({
@@ -24,10 +25,17 @@ export default function LoginComp() {
     e.preventDefault();
     try {
       const result = await signIn('credentials', {
+        redirect: false,
         callbackUrl: '/',
         userEmail: userData.userEmail,
         userPassword: userData.userPassword,
       });
+      if (result?.error) {
+        console.log(result);
+        setError('email ou mot de passe incorrect');
+      } else {
+        window.location.href = '/';
+      }
     } catch (err) {
       console.log('erreur de connexion', err);
     }
@@ -58,6 +66,7 @@ export default function LoginComp() {
             <button type="submit">Se connecter</button>
           </div>
         </div>
+        {error ? <p className="text-center text-red-600">{error}</p> : null}
         <div className="my-4 flex justify-center max-md:flex-col max-md:text-center">
           <p className="mx-3 max-md:m-4">Pas encore de compte ?</p>
           <Link href="/signup" className="text-blue-500">

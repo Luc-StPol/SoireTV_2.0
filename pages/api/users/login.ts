@@ -33,8 +33,9 @@ export default function login(req: NextApiRequest, res: NextApiResponse) {
       });
       return;
     }
-    if (!results) {
-      res.status(404).json('User not found');
+    console.log('RESULTS =', results);
+    if (results.length < 1) {
+      res.status(404).json({ error: 'Email ou mot passe incorrecte' });
       return;
     }
 
