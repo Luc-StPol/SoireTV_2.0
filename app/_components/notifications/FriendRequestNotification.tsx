@@ -10,8 +10,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { getNotifications } from '@/lib/api/notifications';
 
 import Notification from './Notification';
+
+type Notification = {
+  id: string;
+  message: string;
+};
 
 type FriendRequest = {
   sendById: string;
@@ -28,6 +34,7 @@ export default function FriendRequestNotification({
   userId: string;
 }) {
   const [notifications, setNotifications] = useState<FriendRequest[]>([]);
+  const [i, setI] = useState(1);
 
   const updateNotifications = (notifId: string) => {
     setNotifications((prevNotif) =>
@@ -36,24 +43,39 @@ export default function FriendRequestNotification({
   };
 
   useEffect(() => {
-    const socket: typeof Socket = socketIOClient({ path: '/api/socketio' });
+    const socket: typeof Socket = socketIOClient({
+      path: '/api/socketio',
+      query: {
+        userId: userId,
+      },
+    });
+    //Récupérer les nouvelles notifications
 
-    // Joindre la room
-    socket.emit('join', userId);
+    const fetchNotifications = async () => {
+      const response = await getNotifications();
+      if (response) {
+        setNotifications(response.results);
+        setI(i + 1);
+      }
+    };
+    if (i === 1) {
+      fetchNotifications();
+    }
 
-    // Récupérer les notifications non lues
-    socket.on('notifications', (unreadNotifications: FriendRequest[]) => {
-      setNotifications((prev) => [...prev, ...unreadNotifications]);
+    // Récupérer les nouvelles notifications en temps réelle
+    socket.on('new_notification', (notification: FriendRequest) => {
+      setNotifications((prev) => [...prev, notification]);
+      console.log('unread notificaiton:', notification);
     });
 
-    // Écouter les nouvelles notifications
-    socket.on('friend_request_notification', (data: FriendRequest) => {
-      setNotifications((prev) => [...prev, data]);
+    socket.on('remove_notification', (notification: FriendRequest) => {
+      updateNotifications(notification.id);
     });
+
     return () => {
       socket.disconnect();
     };
-  }, [userId]);
+  }, []);
 
   return (
     <div className="mr-16">

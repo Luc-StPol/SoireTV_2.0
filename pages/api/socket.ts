@@ -1,6 +1,5 @@
 import { Server as HttpServer } from 'http';
 
-import { verify } from 'jsonwebtoken';
 import { NextApiRequest } from 'next';
 import { Socket, Server as SocketIOServer } from 'socket.io';
 
@@ -13,29 +12,12 @@ type FriendRequest = {
   message: string;
 };
 
-interface JwtPayload {
-  id: string;
-}
-
-// Types des événements Socket.IO
-interface ServerToClientEvents {
-  notification: (message: string) => void;
-}
-
-interface ClientToServerEvents {
-  sendNotification: (data: { toUserId: string; message: string }) => void;
-  join: (userId: string) => void;
-  notifications: (notifications: unknown) => void;
-  send_friend_request: (data: FriendRequest) => void;
-}
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponseServerIO,
 ) {
   if (!res.socket.server.io) {
     console.log('Initialisation de Socket.IO');
-
     const io = new SocketIOServer(res.socket.server as HttpServer, {
       path: '/api/socketio',
       cors: {
@@ -46,72 +28,44 @@ export default async function handler(
 
     res.socket.server.io = io;
 
-    io.on(
-      'connection',
-      (socket: Socket<ClientToServerEvents, ServerToClientEvents>) => {
+    // Object to store socket.id to userId mapping
+    const socketUserMap: { [key: string]: string } = {};
+
+    io.on('connection', (socket: Socket) => {
+      const userId = socket.handshake.query.userId;
+      if (userId) {
+        socket.join(userId);
         console.log('Utilisateur connecté :', socket.id);
+      }
 
+      // Joindre l'utilisateur à sa room
+      socket.on('join', async (userId: string) => {
+        socket.join('userId');
+
+        // Récupérer les notifications non lues
         try {
-          const token = socket.handshake.query.token as string | undefined;
-
-          if (!token) {
-            socket.disconnect();
-            return;
-          }
-          // Vérifier le token et récupérer l'ID utilisateur
-          const jwtSecret = process.env.JWT_SECRET;
-          if (!jwtSecret) {
-            throw new Error(
-              "JWT_SECRET est manquant dans les variables d'environnement !",
-            );
-          }
-
-          const decoded = verify(token, jwtSecret) as JwtPayload;
-          const userId = decoded.id;
-
-          console.log(`Utilisateur connecté : ${userId}`);
-        } catch (err) {
-          console.error('Authentification échouée :', err);
-          socket.disconnect(); // Déconnecter si l'authentification échoue
+          const notifications = await db.query(
+            'SELECT * FROM notifications WHERE userId = ? AND status = ?',
+            [userId, 'unread'],
+          );
+          // Envoyer les notifications non lues au client
+          socket.emit('unread_notifications', notifications[0]);
+        } catch (error) {
+          console.error(
+            'Erreur lors de la récupération des notifications non lues:',
+            error,
+          );
         }
+      });
 
-        // Joindre l'utilisateur à sa room
-        socket.on('join', async (userId: string) => {
-          socket.join(userId);
-          console.log(`Utilisateur ${userId} a rejoint sa room.`);
-
-          // Récupérer les notifications
-          try {
-            const [notifications] = await db.query(
-              'SELECT * FROM notifications WHERE userId = ?',
-              [userId],
-            );
-
-            // Envoyer les notifications au client
-            socket.emit('notification', JSON.stringify(notifications));
-            console.log('Notifications envoyées au client:', notifications);
-          } catch (error) {
-            console.error(
-              'Erreur lors de la récupération des notifications non lues:',
-              error,
-            );
-          }
-        });
-
-        // Gérer l'envoi de demandes d'amis
-        socket.on('send_friend_request', async (data: FriendRequest) => {
-          // Envoyer la notification en temps réel si le destinataire est connecté
-          io.to(data.receiverId).emit('friend_request_notification', data);
-        });
-
-        socket.on('disconnect', () => {
-          console.log('Utilisateur déconnecté :', socket.id);
-        });
-      },
-    );
+      socket.on('disconnect', () => {
+        const userId = socketUserMap[socket.id];
+        console.log(`Utilisateur ${userId} déconnecté :`, socket.id);
+        delete socketUserMap[socket.id]; // Remove the mapping
+      });
+    });
   } else {
     console.log('Socket.IO déjà initialisé');
   }
-
   res.end();
 }
