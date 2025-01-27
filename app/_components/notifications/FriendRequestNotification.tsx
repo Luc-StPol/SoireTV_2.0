@@ -44,7 +44,7 @@ export default function FriendRequestNotification({
 
   useEffect(() => {
     const socket: typeof Socket = socketIOClient({
-      path: '/api/socketio',
+      path: 'http://localhost:4000/',
       query: {
         userId: userId,
       },
