@@ -26,7 +26,6 @@ export default function LoginComp() {
     try {
       const result = await signIn('credentials', {
         redirect: false,
-        callbackUrl: '/',
         userEmail: userData.userEmail,
         userPassword: userData.userPassword,
       });
