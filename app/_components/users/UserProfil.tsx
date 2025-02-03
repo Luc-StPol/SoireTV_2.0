@@ -2,7 +2,7 @@
 
 import { useSession } from 'next-auth/react';
 // eslint-disable-next-line import/order
-import Image from 'next/image';
+import { CldImage } from 'next-cloudinary';
 import { useEffect, useState } from 'react';
 
 import { getUser } from '@/lib/api/users';
@@ -45,8 +45,8 @@ export default function UserProfil() {
       <div className="flex md:mt-48">
         <div>
           <EditProfil />
-          <Image
-            src={`/images/userspp/${userProfil.profilPicture}`}
+          <CldImage
+            src={userProfil.profilPicture}
             alt="photo de profil"
             width={270}
             height={270}

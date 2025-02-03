@@ -3,6 +3,7 @@
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useSession } from 'next-auth/react';
+import { CldImage } from 'next-cloudinary';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -54,8 +55,8 @@ export default function Header() {
             )}
           </div>
           <Link href="/profil" className="w-20">
-            <Image
-              src={`/images/userspp/${session?.user?.image}`}
+            <CldImage
+              src={`${session?.user?.image}`}
               alt="photo de profil"
               width={110}
               height={110}

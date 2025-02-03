@@ -1,15 +1,19 @@
-import path from 'path';
-
+import { v2 as cloudinary } from 'cloudinary';
 import formidable from 'formidable';
 import { RowDataPacket } from 'mysql2';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getServerSession } from 'next-auth';
 
 import db from '@/lib/db';
-import { deleteFile } from '@/lib/middleware/deleteFile';
 import { config, formidableMiddleware } from '@/lib/middleware/uploadFile';
 
 import { authOptions } from '../auth/[...nextauth]';
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 interface UserData extends RowDataPacket {
   id: number;
@@ -32,10 +36,7 @@ export default async function handler(
     return;
   }
   try {
-    // Configuration de l'upload
-    const uploadDir = path.join(process.cwd(), '/public/images/userspp');
-
-    const { files, fields } = await formidableMiddleware(req, uploadDir);
+    const { files, fields } = await formidableMiddleware(req, '/tmp');
 
     if (!files.file) {
       res.status(500).json('file not found');
@@ -43,8 +44,14 @@ export default async function handler(
     }
 
     const uploadedFile = files.file[0] as unknown as formidable.File;
-    const newFilename = uploadedFile.newFilename;
     const userId = fields.userId as unknown as string;
+
+    const result = await cloudinary.uploader.upload(uploadedFile.filepath, {
+      folder: 'user_profiles',
+      public_id: uploadedFile.newFilename,
+    });
+
+    const newFilename = result.public_id;
 
     const query = 'SELECT profilPicture FROM users WHERE id = ?';
     db.query(query, [userId], (err, results: UserData[]) => {
@@ -56,20 +63,19 @@ export default async function handler(
       }
       const userPp = results[0].profilPicture;
 
+      console.log('USERPP', userPp);
+
       //delete previous pp from storage & db
-      if (userPp) {
-        try {
-          const filePath = path.join(
-            process.cwd(),
-            '/public/images/userspp/',
-            userPp,
-          );
-          deleteFile(filePath);
-        } catch (err) {
-          res
-            .status(500)
-            .json({ message: "previous profil picture can't be deleted", err });
-        }
+      if (userPp && userPp != 'user_profiles/ppDefault') {
+        cloudinary.uploader.destroy(userPp, (err, result) => {
+          if (err) {
+            res.status(500).json({
+              message: "Previous profile picture couldn't be deleted",
+              err,
+            });
+            return;
+          }
+        });
       }
 
       const query2 = 'UPDATE users SET profilPicture = ? WHERE id = ?';
