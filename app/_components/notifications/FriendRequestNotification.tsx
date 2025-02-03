@@ -43,12 +43,21 @@ export default function FriendRequestNotification({
   };
 
   useEffect(() => {
+    const initSocketIo = async () => {
+      const response = await fetch('api/socket');
+      if (response) {
+        console.log('socket initialisé');
+      }
+    };
+    initSocketIo();
+
     const socket: typeof Socket = socketIOClient({
-      path: 'http://localhost:4000/',
+      path: '/api/socketio',
       query: {
         userId: userId,
       },
     });
+    console.log('SOCKET:', socket);
     //Récupérer les nouvelles notifications
 
     const fetchNotifications = async () => {
