@@ -51,8 +51,13 @@ export const isFriend = async (id: string) => {
   return response.data;
 };
 
+export const getFriendsList = async () => {
+  const response = await axios.get(`${API_URL}/friends/getfriendslist`);
+  return response.data;
+};
+
 export const getPendingFriendList = async () => {
-  const response = await axios.get(`${API_URL}/users/pendingfriendlist`);
+  const response = await axios.get(`${API_URL}/friends/pendingfriendlist`);
   return response.data;
 };
 

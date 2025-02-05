@@ -58,6 +58,7 @@ export default function LayerLeft(props: {
               <Link href="/user/watchlist">Film à voir</Link>
               <Link href="/user/favoris">Vos Favoris</Link>
               <Link href="/user/watched">Vos notations</Link>
+              <Link href="/messagerie">Messagerie</Link>
             </div>
             <div className="mt-40">{props.children}</div>
           </div>

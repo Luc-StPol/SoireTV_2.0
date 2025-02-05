@@ -5,7 +5,7 @@ import db from '@/lib/db';
 
 import { authOptions } from '../auth/[...nextauth]';
 
-export default async function pendingfriendslist(
+export default async function getfriendslist(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
@@ -18,16 +18,18 @@ export default async function pendingfriendslist(
     return;
   }
   const query =
-    'SELECT * FROM friendslist WHERE friendId = ? and status = "pending"';
-  db.query(query, [session.user.id], (err, results) => {
+    'SELECT u.id, u.name, u.profilPicture FROM users u JOIN friendslist f On u.id = f.friendId OR u.id = f.userId WHERE ? IN (f.userId, f.friendId) AND u.id != ?';
+  db.query(query, [session.user.id, session.user.id], (err, results) => {
     if (err) {
       res.status(500).json({
         error: err.message,
         errno: err.errno,
       });
+      console.log(err);
       return;
     }
-    res.status(200).json({
+    console.log(results);
+    return res.status(200).json({
       results,
     });
   });
