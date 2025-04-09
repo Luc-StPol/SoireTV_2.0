@@ -44,7 +44,7 @@ export default function GetFriendsMovieList(props: { typeList: string }) {
     fetchMovies();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  console.log('movie', movies);
+
   if (!movies) {
     return (
       <div className="m-24 mt-48 text-center text-lg">

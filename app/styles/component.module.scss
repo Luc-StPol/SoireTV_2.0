@@ -18,9 +18,20 @@
   position: fixed;
   width: 100%;
 }
+
+.fixedTabs {
+  position: fixed; /* Position fixe */
+  top: 105px; /* Décalage par rapport au haut de la page */
+  left: 278px; /* Positionnement à gauche */
+  background-color: #fff; /* Fond blanc pour visibilité */
+  z-index: 10; /* Pour qu'ils restent au-dessus du contenu */
+}
+
 .onglet {
-  position: fixed;
-  top: 105px;
+
+  flex-direction: column;
+  gap: 10px;
+  padding-left: 10px;
   a {
     background: var(--primary);
     padding: 4px 13px 5px 8px;

@@ -5,13 +5,16 @@ import { useEffect, useState } from 'react';
 
 import { getFriendsList } from '@/lib/api/friends';
 
-export default function FriendList() {
-  interface Friend {
-    profilPicture: string;
-    id: number;
-    name: string;
-  }
+interface Friend {
+  profilPicture: string;
+  id: number;
+  name: string;
+  friendshipId: number;
+}
 
+export default function FriendList(props: {
+  updateFriendId: (friendData: Friend) => void;
+}) {
   const [friendsList, setFriendsList] = useState<Friend[]>([]);
 
   useEffect(() => {
@@ -19,7 +22,8 @@ export default function FriendList() {
       const response = await getFriendsList();
       if (response) {
         setFriendsList(response.results);
-        console.log('Friendslist =', friendsList);
+        console.log('Friendslist =', response.results[0]);
+        props.updateFriendId(response.results[0]);
       }
     };
     fetchFriendsList();
@@ -37,6 +41,7 @@ export default function FriendList() {
                 width={50}
                 height={50}
                 className="mr-4 overflow-hidden rounded-full"
+                onClick={() => props.updateFriendId(user)}
               />
               <li>{user.name}</li>
             </ul>

@@ -18,7 +18,7 @@ export default async function getfriendslist(
     return;
   }
   const query =
-    'SELECT u.id, u.name, u.profilPicture FROM users u JOIN friendslist f On u.id = f.friendId OR u.id = f.userId WHERE ? IN (f.userId, f.friendId) AND u.id != ?';
+    'SELECT u.id, u.name, u.profilPicture,  f.id AS friendshipId FROM users u JOIN friendslist f On u.id = f.friendId OR u.id = f.userId WHERE ? IN (f.userId, f.friendId) AND u.id != ?';
   db.query(query, [session.user.id, session.user.id], (err, results) => {
     if (err) {
       res.status(500).json({
@@ -28,7 +28,7 @@ export default async function getfriendslist(
       console.log(err);
       return;
     }
-    console.log(results);
+    console.log('Friend list=', results);
     return res.status(200).json({
       results,
     });

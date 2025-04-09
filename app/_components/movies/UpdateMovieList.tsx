@@ -63,7 +63,6 @@ export default function UpdateMovieList(props: propsType) {
     // Update favoritesmovies icon if movie is deleted from watched list
     if (props.movieList === 'favoritesmovies' && n === 1) {
       setN(0);
-      console.log(`For ${props.movieList} n set to ${n}`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.updateFavorites]);

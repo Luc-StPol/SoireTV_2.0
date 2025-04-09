@@ -22,14 +22,14 @@ export default async function handler(
     res.socket.server.io = io;
 
     io.on('connection', (socket: Socket) => {
-      const userId = socket.handshake.query.userId;
-      if (userId) {
-        socket.join(userId);
-        console.log('Utilisateur connecté :', socket.id);
+      const roomId = socket.handshake.query.roomId;
+      if (roomId) {
+        socket.join(roomId);
+        console.log('Utilisateur connecté :', socket.id, 'to room:', roomId);
       }
 
       socket.on('disconnect', () => {
-        console.log(`Utilisateur ${userId} déconnecté :`, socket.id);
+        console.log(`Utilisateur ${roomId} déconnecté :`, socket.id);
       });
     });
   } else {

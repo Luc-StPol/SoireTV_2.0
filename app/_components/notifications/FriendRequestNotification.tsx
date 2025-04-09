@@ -54,11 +54,9 @@ export default function FriendRequestNotification({
     const socket: typeof Socket = socketIOClient({
       path: '/api/socketio',
       query: {
-        userId: userId,
+        roomId: userId,
       },
     });
-    console.log('SOCKET:', socket);
-    //Récupérer les nouvelles notifications
 
     const fetchNotifications = async () => {
       const response = await getNotifications();

@@ -7,13 +7,12 @@ import { deleteNotification, sendNotification } from '@/lib/api/notifications';
 export default function FriendRequest(props: { id: string }) {
   const [requested, setRequested] = useState<boolean | string>(false);
   const { data: session } = useSession();
-  console.log('session=', session);
 
   useEffect(() => {
     const fetchFollowed = async () => {
       try {
         const response = await isFriend(props.id);
-        console.log('response=', response[0]);
+
         if (response.length > 0) {
           setRequested(response[0].status);
         }

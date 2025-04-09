@@ -27,7 +27,6 @@ export const editUserInformations = async (data: UserData) => {
 };
 
 export const editUserPp = async (formData: FormData) => {
-  console.log(formData);
   const response = await axios.post(`${API_URL}/users/addpp`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
